@@ -1,6 +1,6 @@
 # Javein
 
-Bienvenue dans la documentation officielle de Votre Langage de Programmation. Votre Langage est un langage de programmation moderne conçu pour XYZ.
+Bienvenue dans la documentation officielle de Javein.
 
 ## 🌟 Caractéristiques
 
