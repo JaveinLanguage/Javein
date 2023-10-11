@@ -13,6 +13,10 @@ public:
 private:
     void parseStatement();
     void parseIfStatement();
+    void parseWhileStatement();
+    void parseForStatement();
+    void parseFunctionDeclaration();
+    void parseReturnStatement();
 
     bool match(TOKENS expected);
 
