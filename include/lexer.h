@@ -33,8 +33,10 @@ enum class TOKENS
     MUL,
     DIV,
     // PARENTS
-    LPAREN,
-    RPAREN,
+    OPEN_PAREN,
+    CLOSE_PAREN,
+    OPEN_BRACK,
+    CLOSE_BRACK,
     // ASSIGNATION VARIABLE
     ASSIGN,
     // OPERATORS
@@ -51,6 +53,7 @@ enum class TOKENS
     LINE_COMMENT,
     BLOCK_COMMENT,
     // UTILS
+    NEWLINE,
     END,
     INVALID
 };
@@ -81,8 +84,10 @@ struct Token
             case TOKENS::MINUS: return "MINUS";
             case TOKENS::MUL: return "MULTIPLY";
             case TOKENS::DIV: return "DIVIDE";
-            case TOKENS::LPAREN: return "LPAREN";
-            case TOKENS::RPAREN: return "RPAREN";
+            case TOKENS::OPEN_PAREN: return "OPEN_PAREN";
+            case TOKENS::CLOSE_PAREN: return "CLOSE_PAREN";
+            case TOKENS::OPEN_BRACK: return "OPEN_BRACK";
+            case TOKENS::CLOSE_BRACK: return "CLOSE_BRACK";
             case TOKENS::END: return "END";
             case TOKENS::ASSIGN: return "ASSIGN";
             case TOKENS::EQUAL: return "EQUAL";
@@ -96,6 +101,7 @@ struct Token
             case TOKENS::NOT: return "NOT";
             case TOKENS::LINE_COMMENT: return "LINE_COMMENT";
             case TOKENS::BLOCK_COMMENT: return "BLOCK_COMMENT";
+            case TOKENS::NEWLINE: return "NEWLINE";
             case TOKENS::INVALID: return "INVALID";
         }
         return "";
@@ -110,14 +116,13 @@ public:
     vector<Token> tokenize();
 
 private:
+    string input;
+    size_t position;
+
     Token processNumber(vector<Token> tokens);
     Token processId();
     Token processChar();
     Token processString();
-
-private:
-    string input;
-    size_t position;
 };
 
 #endif

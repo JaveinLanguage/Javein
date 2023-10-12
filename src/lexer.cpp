@@ -18,62 +18,62 @@ vector<Token> lexer::tokenize()
         if (isdigit(current_char)) {
             tokens.push_back(processNumber(tokens));
         }
-        // IF
+            // IF
         else if (current_char == 'i'
-                    && position + 2 < input.size()
-                    && input[position + 1] == 'f'
-                    && !isalnum(input[position + 2])
+                 && position + 2 < input.size()
+                 && input[position + 1] == 'f'
+                 && !isalnum(input[position + 2])
                 ) {
             tokens.push_back(Token{ TOKENS::IF, "if" });
             position += 2;
         }
-        // ELSEIF
+            // ELSEIF
         else if (current_char == 'e'
-                    && position + 6 < input.size()
-                    && input[position + 1] == 'l'
-                    && input[position + 2] == 's'
-                    && input[position + 3] == 'e'
-                    && input[position + 4] == 'i'
-                    && input[position + 5] == 'f'
-                    && !isalnum(input[position + 6])
+                 && position + 6 < input.size()
+                 && input[position + 1] == 'l'
+                 && input[position + 2] == 's'
+                 && input[position + 3] == 'e'
+                 && input[position + 4] == 'i'
+                 && input[position + 5] == 'f'
+                 && !isalnum(input[position + 6])
                 ) {
             tokens.push_back(Token{ TOKENS::ELSEIF, "elseif" });
             position += 6;
         }
-        // ELSE
+            // ELSE
         else if (current_char == 'e'
-                    && position + 4 < input.size()
-                    && input[position + 1] == 'l'
-                    && input[position + 2] == 's'
-                    && input[position + 3] == 'e'
-                    && !isalnum(input[position + 4])
+                 && position + 4 < input.size()
+                 && input[position + 1] == 'l'
+                 && input[position + 2] == 's'
+                 && input[position + 3] == 'e'
+                 && !isalnum(input[position + 4])
                 ) {
             tokens.push_back(Token{ TOKENS::ELSE, "else" });
             position += 4;
         }
-        // FOR
+            // FOR
         else if (current_char == 'f'
-                    && position + 3 < input.size()
-                    && input[position + 1] == 'o'
-                    && input[position + 2] == 'r'
-                    && !isalnum(input[position + 3])
+                 && position + 3 < input.size()
+                 && input[position + 1] == 'o'
+                 && input[position + 2] == 'r'
+                 && !isalnum(input[position + 3])
                 ) {
             tokens.push_back(Token{ TOKENS::FOR, "for" });
             position += 3;
         }
-        // WHILE
+            // WHILE
         else if (current_char == 'w'
-                    && position + 5 < input.size()
-                    && input[position + 1] == 'h'
-                    && input[position + 2] == 'i'
-                    && input[position + 3] == 'l'
-                    && input[position + 4] == 'e'
-                    && !isalnum(input[position + 5])
+                 && position + 5 < input.size()
+                 && input[position + 1] == 'h'
+                 && input[position + 2] == 'i'
+                 && input[position + 3] == 'l'
+                 && input[position + 4] == 'e'
+                 && !isalnum(input[position + 5])
                 ) {
             tokens.push_back(Token{ TOKENS::WHILE, "while" });
             position += 5;
         }
-        // FUNC
+            // FUNC
         else if (current_char == 'f'
                  && position + 2 < input.size()
                  && input[position + 1] == 'n'
@@ -82,7 +82,7 @@ vector<Token> lexer::tokenize()
             tokens.push_back(Token{ TOKENS::FUNC, "fn" });
             position += 2;
         }
-        // RETURN
+            // RETURN
         else if (current_char == 'r'
                  && position + 6 < input.size()
                  && input[position + 1] == 'e'
@@ -95,7 +95,7 @@ vector<Token> lexer::tokenize()
             tokens.push_back(Token{ TOKENS::RETURN, "return" });
             position += 6;
         }
-        // CLASS
+            // CLASS
         else if (current_char == 'c'
                  && position + 5 < input.size()
                  && input[position + 1] == 'l'
@@ -107,113 +107,128 @@ vector<Token> lexer::tokenize()
             tokens.push_back(Token{ TOKENS::CLASS, "class" });
             position += 5;
         }
-        // IDENTIFIER
+            // IDENTIFIER
         else if (isalpha(current_char) || current_char == '_') {
             tokens.push_back(processId());
         }
-        // CHAR
+            // CHAR
         else if (current_char == '\'') {
             tokens.push_back(processChar());
         }
-        // STRING
+            // STRING
         else if (current_char == '\"') {
             tokens.push_back(processString());
         }
-        // INCR
+            // INCR
         else if (current_char == '+' && position + 1 < input.size() && input[position + 1] == '+') {
             tokens.push_back(Token{ TOKENS::INCR, "++" });
             position++;
         }
-        // PLUS
+            // PLUS
         else if (current_char == '+') {
             tokens.push_back(Token{ TOKENS::PLUS, "+" });
             position++;
         }
-        // DECR
+            // DECR
         else if (current_char == '-' && position + 1 < input.size() && input[position + 1] == '-') {
             tokens.push_back(Token{ TOKENS::DECR, "--" });
             position++;
         }
-        // MINUS
+            // MINUS
         else if (current_char == '-') {
             tokens.push_back(Token{ TOKENS::MINUS, "-" });
             position++;
         }
-        // MUL
+            // MUL
         else if (current_char == '*') {
             tokens.push_back(Token{ TOKENS::MUL, "*" });
             position++;
         }
-        // DIV
+            // DIV
         else if (current_char == '/') {
             tokens.push_back(Token{ TOKENS::DIV, "/" });
             position++;
         }
-        // RPAREN
+            // RPAREN
         else if (current_char == '(') {
-            tokens.push_back(Token{ TOKENS::LPAREN, "(" });
+            tokens.push_back(Token{ TOKENS::OPEN_PAREN, "(" });
             position++;
         }
-        // LPAREN
+            // LPAREN
         else if (current_char == ')') {
-            tokens.push_back(Token{ TOKENS::RPAREN, ")" });
+            tokens.push_back(Token{ TOKENS::CLOSE_PAREN, ")" });
             position++;
         }
-        // EQUAL
+            // RBRACK
+        else if (current_char == '{') {
+            tokens.push_back(Token{ TOKENS::OPEN_BRACK, "{" });
+            position++;
+        }
+            // LBRACK
+        else if (current_char == '}') {
+            tokens.push_back(Token{ TOKENS::CLOSE_BRACK, "}" });
+            position++;
+        }
+            // EQUAL
         else if (current_char == '=' && position + 1 < input.size() && input[position + 1] == '=') {
             tokens.push_back(Token{ TOKENS::EQUAL, "==" });
             position++;
         }
-        // NOT EQUAL
+            // NOT EQUAL
         else if (current_char == '!' && position + 1 < input.size() && input[position + 1] == '=') {
             tokens.push_back(Token{ TOKENS::NOT_EQUAL, "!=" });
             position++;
         }
-        // ASSIGN
+            // ASSIGN
         else if (current_char == '=') {
             tokens.push_back(Token{ TOKENS::ASSIGN, "=" });
             position++;
         }
-        // LESS THAN OR EQUAL
+            // LESS THAN OR EQUAL
         else if (current_char == '<' && position + 1 < input.size() && input[position + 1] == '=') {
             tokens.push_back(Token{ TOKENS::LESS_THAN_OR_EQUAL, "<=" });
             position++;
         }
-        // LESS THAN
+            // LESS THAN
         else if (current_char == '<') {
             tokens.push_back(Token{ TOKENS::LESS_THAN, "<" });
             position++;
         }
-        // GREATER THAN OR EQUAL
+            // GREATER THAN OR EQUAL
         else if (current_char == '>' && position + 1 < input.size() && input[position + 1] == '=') {
             tokens.push_back(Token{ TOKENS::GREATER_THAN_OR_EQUAL, ">=" });
             position++;
         }
-        // GREATER THAN
+            // GREATER THAN
         else if (current_char == '>') {
             tokens.push_back(Token{ TOKENS::GREATER_THAN, ">" });
             position++;
         }
-        // AND
+            // AND
         else if (current_char == '&' && position + 1 < input.size() && input[position + 1] == '&') {
             tokens.push_back(Token{ TOKENS::AND, "&&" });
             position++;
         }
-        // OR
+            // OR
         else if (current_char == '|' && position + 1 < input.size() && input[position + 1] == '|') {
             tokens.push_back(Token{ TOKENS::OR, "||" });
             position++;
         }
-        // NOT
+            // NOT
         else if (current_char == '!') {
             tokens.push_back(Token{ TOKENS::NOT, "!" });
             position++;
         }
-        // WHITESPACE
-        else if (current_char == ' ') {
+            // WHITESPACE
+        else if (current_char == ' ' || current_char == '\t') {
             position++;
         }
-        // INVALID
+            // NEWLINE
+        else if (current_char == '\n' || current_char == '\r') {
+            tokens.push_back(Token{TOKENS::NEWLINE, ""});
+            position++;
+        }
+            // INVALID
         else {
             tokens.push_back(Token{ TOKENS::INVALID, std::string(1, current_char) });
             position++;
