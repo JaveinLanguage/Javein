@@ -7,4 +7,4 @@ project(Javein)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(Javein src/main.cpp src/lexer.cpp include/lexer.h)
+add_executable(Javein src/main.cpp src/lexer.cpp include/lexer.h include/parser.h src/parser.cpp)
