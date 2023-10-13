@@ -8,11 +8,11 @@ using namespace std;
 
 enum class TOKENS
 {
-    // DECIMAL
+    // VALUES
     INT,
     FLOAT,
-    // DEF
-    ID,
+    CHAR,
+    STRING,
     // KEYS
     IF,
     ELSEIF,
@@ -22,9 +22,13 @@ enum class TOKENS
     FUNC,
     RETURN,
     CLASS,
-    // CHAR
-    CHAR,
-    STRING,
+    // KEYS TYPE
+    INT_TYPE,
+    FLOAT_TYPE,
+    CHAR_TYPE,
+    STRING_TYPE,
+    // DEF
+    ID,
     // OPERATORS CALCUL
     INCR,
     DECR,
@@ -53,7 +57,7 @@ enum class TOKENS
     LINE_COMMENT,
     BLOCK_COMMENT,
     // UTILS
-    NEWLINE,
+    SEMICOLON,
     END,
     INVALID
 };
@@ -67,6 +71,8 @@ struct Token
         switch (type) {
             case TOKENS::INT: return "INT";
             case TOKENS::FLOAT: return "FLOAT";
+            case TOKENS::CHAR: return "CHAR";
+            case TOKENS::STRING: return "STRING";
             case TOKENS::ID: return "ID";
             case TOKENS::IF: return "IF";
             case TOKENS::ELSEIF: return "ELSEIF";
@@ -75,9 +81,11 @@ struct Token
             case TOKENS::WHILE: return "WHILE";
             case TOKENS::FUNC: return "FUNC";
             case TOKENS::RETURN: return "RETURN";
+            case TOKENS::INT_TYPE: return "INT_TYPE";
+            case TOKENS::FLOAT_TYPE: return "FLOAT_TYPE";
+            case TOKENS::CHAR_TYPE: return "CHAR_TYPE";
+            case TOKENS::STRING_TYPE: return "STRING_TYPE";
             case TOKENS::CLASS: return "CLASS";
-            case TOKENS::CHAR: return "CHAR";
-            case TOKENS::STRING: return "STRING";
             case TOKENS::INCR: return "INCREMENTATION";
             case TOKENS::DECR: return "DECREMENTATION";
             case TOKENS::PLUS: return "PLUS";
@@ -101,7 +109,7 @@ struct Token
             case TOKENS::NOT: return "NOT";
             case TOKENS::LINE_COMMENT: return "LINE_COMMENT";
             case TOKENS::BLOCK_COMMENT: return "BLOCK_COMMENT";
-            case TOKENS::NEWLINE: return "NEWLINE";
+            case TOKENS::SEMICOLON: return "SEMICOLON";
             case TOKENS::INVALID: return "INVALID";
         }
         return "";

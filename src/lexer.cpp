@@ -14,7 +14,7 @@ vector<Token> lexer::tokenize()
 
         const char current_char = input[position];
 
-        // INT
+            // INT
         if (isdigit(current_char)) {
             tokens.push_back(processNumber(tokens));
         }
@@ -106,6 +106,52 @@ vector<Token> lexer::tokenize()
                 ) {
             tokens.push_back(Token{ TOKENS::CLASS, "class" });
             position += 5;
+        }
+            // INT TYPE
+        else if (current_char == 'i'
+                 && position + 4 < input.size()
+                 && input[position + 1] == 'n'
+                 && input[position + 2] == 't'
+                 && !isalnum(input[position + 4])
+                ) {
+            tokens.push_back(Token{ TOKENS::INT_TYPE, "int_type" });
+            position += 4;
+        }
+            // FLOAT TYPE
+        else if (current_char == 'f'
+                 && position + 5 < input.size()
+                 && input[position + 1] == 'l'
+                 && input[position + 2] == 'o'
+                 && input[position + 3] == 'a'
+                 && input[position + 4] == 't'
+                 && !isalnum(input[position + 5])
+                ) {
+            tokens.push_back(Token{ TOKENS::FLOAT_TYPE, "float_type" });
+            position += 5;
+        }
+            // CHAR TYPE
+        else if (current_char == 'c'
+                 && position + 4 < input.size()
+                 && input[position + 1] == 'h'
+                 && input[position + 2] == 'a'
+                 && input[position + 3] == 'r'
+                 && !isalnum(input[position + 4])
+                ) {
+            tokens.push_back(Token{ TOKENS::CHAR_TYPE, "char_type" });
+            position += 4;
+        }
+            // STRING TYPE
+        else if (current_char == 's'
+                 && position + 6 < input.size()
+                 && input[position + 1] == 't'
+                 && input[position + 2] == 'r'
+                 && input[position + 3] == 'i'
+                 && input[position + 4] == 'n'
+                 && input[position + 5] == 'g'
+                 && !isalnum(input[position + 6])
+                ) {
+            tokens.push_back(Token{ TOKENS::STRING_TYPE, "string_type" });
+            position += 6;
         }
             // IDENTIFIER
         else if (isalpha(current_char) || current_char == '_') {
@@ -223,9 +269,9 @@ vector<Token> lexer::tokenize()
         else if (current_char == ' ' || current_char == '\t') {
             position++;
         }
-            // NEWLINE
-        else if (current_char == '\n' || current_char == '\r') {
-            tokens.push_back(Token{TOKENS::NEWLINE, ""});
+            // SEMICOLON
+        else if (current_char == ';') {
+            tokens.push_back(Token{TOKENS::SEMICOLON, ";"});
             position++;
         }
             // INVALID

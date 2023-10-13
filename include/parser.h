@@ -14,13 +14,13 @@ private:
     size_t currentTokenIndex;
 
     void parseIfStatement();
+    void parseConditional(const string& statementType);
+
     void parseForStatement();
     void parseWhileStatement();
-    void parseFunctionDeclaration();
-    void parseReturnStatement();
 
+    void parseBlock(const string& blockType);
     bool checkCurrentTokenType(TOKENS expectedType);
-
     void advance();
 };
 
