@@ -253,12 +253,12 @@ vector<Token> lexer::tokenize()
             // AND
         else if (current_char == '&' && position + 1 < input.size() && input[position + 1] == '&') {
             tokens.push_back(Token{ TOKENS::AND, "&&" });
-            position++;
+            position += 2;
         }
             // OR
         else if (current_char == '|' && position + 1 < input.size() && input[position + 1] == '|') {
             tokens.push_back(Token{ TOKENS::OR, "||" });
-            position++;
+            position += 2;
         }
             // NOT
         else if (current_char == '!') {

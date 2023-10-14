@@ -14,6 +14,16 @@ void parser::parse()
         else if (checkCurrentTokenType(TOKENS::WHILE)) {
             parseWhileStatement();
         }
+        else {
+            if (currentTokenIndex >= tokens.size()) {
+                break;
+            }
+
+            cerr << "Error: Unexpected token at position "
+                 << currentTokenIndex << ": "
+                 << tokens[currentTokenIndex].value << endl;
+            advance();
+        }
     }
 }
 
@@ -31,6 +41,7 @@ void parser::parseIfStatement()
 
     if (checkCurrentTokenType(TOKENS::ELSE)) {
         cout << "Parsing ELSE Statement:" << endl;
+        advance();
         parseBlock("ELSE");
     }
 }
