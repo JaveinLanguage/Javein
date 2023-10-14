@@ -13,6 +13,7 @@ enum class TOKENS
     FLOAT,
     CHAR,
     STRING,
+    BOOLEAN,
     // KEYS
     IF,
     ELSEIF,
@@ -27,11 +28,16 @@ enum class TOKENS
     FLOAT_TYPE,
     CHAR_TYPE,
     STRING_TYPE,
+    BOOLEAN_TYPE,
     // DEF
     ID,
     // OPERATORS CALCUL
     INCR,
     DECR,
+    PLUS_EQUAL,
+    MINUS_EQUAL,
+    MUL_EQUAL,
+    DIV_EQUAL,
     PLUS,
     MINUS,
     MUL,
@@ -68,12 +74,13 @@ struct Token
     TOKENS type;
     string value;
 
-    string getTokenTypeName() const {
+     string getTokenTypeName() const {
         switch (type) {
             case TOKENS::INT: return "INT";
             case TOKENS::FLOAT: return "FLOAT";
             case TOKENS::CHAR: return "CHAR";
             case TOKENS::STRING: return "STRING";
+            case TOKENS::BOOLEAN: return "BOOLEAN";
             case TOKENS::ID: return "ID";
             case TOKENS::IF: return "IF";
             case TOKENS::ELSEIF: return "ELSEIF";
@@ -86,9 +93,14 @@ struct Token
             case TOKENS::FLOAT_TYPE: return "FLOAT_TYPE";
             case TOKENS::CHAR_TYPE: return "CHAR_TYPE";
             case TOKENS::STRING_TYPE: return "STRING_TYPE";
+            case TOKENS::BOOLEAN_TYPE: return "BOOLEAN_TYPE";
             case TOKENS::CLASS: return "CLASS";
             case TOKENS::INCR: return "INCREMENTATION";
             case TOKENS::DECR: return "DECREMENTATION";
+            case TOKENS::PLUS_EQUAL: return "PLUS_EQUAL";
+            case TOKENS::MINUS_EQUAL: return "MINUS_EQUAL";
+            case TOKENS::MUL_EQUAL: return "MUL_EQUAL";
+            case TOKENS::DIV_EQUAL: return "DIV_EQUAL";
             case TOKENS::PLUS: return "PLUS";
             case TOKENS::MINUS: return "MINUS";
             case TOKENS::MUL: return "MULTIPLY";
@@ -118,10 +130,10 @@ struct Token
     }
 };
 
-class lexer
+class Lexer
 {
 public:
-    explicit lexer(const string& s);
+    explicit Lexer(const string& s);
 
     vector<Token> tokenize();
 

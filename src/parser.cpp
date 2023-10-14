@@ -40,7 +40,7 @@ void Parser::parse()
 
 // UTILS
 
-void Parser::parseBlock(const string& blockType)
+void Parser::parseBlock(const string &blockType)
 {
     advance();
 

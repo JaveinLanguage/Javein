@@ -1,8 +1,9 @@
 #include "../include/parser.hpp"
 
-int main() {
+int main()
+{
     string input = "if (a > 4 && r == 48) {"
-                   "    int result = a + b"
+                   "    boolean result = true"
                    "} elseif (t == 4) {"
                    "    t += 4;"
                    "} else {"
@@ -10,9 +11,13 @@ int main() {
                    "}"
                    "for (int i = 0; i > 0; i++) {"
                    "    i = 10"
+                   "}"
+                   "fn int bast(char c = 'a', float wow = 10.2) {"
+                   "    a = 10"
+                   "    return a"
                    "}";
 
-    lexer lexer(input);
+    Lexer lexer(input);
     vector<Token> tokens = lexer.tokenize();
     size_t currentTokenIndex = 0;
 

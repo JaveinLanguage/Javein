@@ -1,12 +1,12 @@
 #include "../include/lexer.hpp"
 
-lexer::lexer(const string &s) : input(s), position(0) {};
+Lexer::Lexer(const string &s) : input(s), position(0) {};
 
-vector<Token> lexer::tokenize()
+vector<Token> Lexer::tokenize()
 {
     vector<Token> tokens;
     while (true) {
-        // END
+            // END
         if (position >= input.size()) {
             tokens.push_back(Token{ TOKENS::END, "" });
             break;
@@ -153,6 +153,42 @@ vector<Token> lexer::tokenize()
             tokens.push_back(Token{ TOKENS::STRING_TYPE, "string_type" });
             position += 6;
         }
+            // BOOLEAN TYPE
+        else if (current_char == 'b'
+                 && position + 7 < input.size()
+                 && input[position + 1] == 'o'
+                 && input[position + 2] == 'o'
+                 && input[position + 3] == 'l'
+                 && input[position + 4] == 'e'
+                 && input[position + 5] == 'a'
+                 && input[position + 6] == 'n'
+                 && !isalnum(input[position + 7])
+                ) {
+            tokens.push_back(Token{ TOKENS::BOOLEAN_TYPE, "boolean_type" });
+            position += 7;
+        }
+            // BOOLEAN
+        else if (current_char == 't'
+                 && position + 3 < input.size()
+                 && input[position + 1] == 'r'
+                 && input[position + 2] == 'u'
+                 && input[position + 3] == 'e'
+                 && !isalnum(input[position + 4])
+                ) {
+            tokens.push_back(Token{ TOKENS::BOOLEAN, "true" });
+            position += 4;
+        }
+        else if (current_char == 'f'
+                 && position + 4 < input.size()
+                 && input[position + 1] == 'a'
+                 && input[position + 2] == 'l'
+                 && input[position + 3] == 's'
+                 && input[position + 4] == 'e'
+                 && !isalnum(input[position + 5])
+                ) {
+            tokens.push_back(Token{ TOKENS::BOOLEAN, "false" });
+            position += 5;
+        }
             // IDENTIFIER
         else if (isalpha(current_char) || current_char == '_') {
             tokens.push_back(processId());
@@ -168,16 +204,36 @@ vector<Token> lexer::tokenize()
             // INCR
         else if (current_char == '+' && position + 1 < input.size() && input[position + 1] == '+') {
             tokens.push_back(Token{ TOKENS::INCR, "++" });
-            position++;
-        }
-            // PLUS
-        else if (current_char == '+') {
-            tokens.push_back(Token{ TOKENS::PLUS, "+" });
-            position++;
+            position += 2;
         }
             // DECR
         else if (current_char == '-' && position + 1 < input.size() && input[position + 1] == '-') {
             tokens.push_back(Token{ TOKENS::DECR, "--" });
+            position += 2;
+        }
+           // PLUS EQUAL
+        else if (current_char == '+' && position + 1 < input.size() && input[position + 1] == '=') {
+            tokens.push_back(Token{ TOKENS::PLUS_EQUAL, "+=" });
+            position += 2;
+        }
+            // MINUS EQUAL
+        else if (current_char == '-' && position + 1 < input.size() && input[position + 1] == '=') {
+            tokens.push_back(Token{ TOKENS::MINUS_EQUAL, "-=" });
+            position += 2;
+        }
+            // MUL EQUAL
+        else if (current_char == '*' && position + 1 < input.size() && input[position + 1] == '=') {
+            tokens.push_back(Token{ TOKENS::MUL_EQUAL, "*=" });
+            position += 2;
+        }
+            // DIV EQUAL
+        else if (current_char == '/' && position + 1 < input.size() && input[position + 1] == '=') {
+            tokens.push_back(Token{ TOKENS::DIV_EQUAL, "/=" });
+            position += 2;
+        }
+            // PLUS
+        else if (current_char == '+') {
+            tokens.push_back(Token{ TOKENS::PLUS, "+" });
             position++;
         }
             // MINUS
@@ -288,7 +344,7 @@ vector<Token> lexer::tokenize()
     return tokens;
 }
 
-Token lexer::processNumber(vector<Token> tokens)
+Token Lexer::processNumber(vector<Token> tokens)
 {
     string result;
     bool hasDecimal = false;
@@ -314,7 +370,7 @@ Token lexer::processNumber(vector<Token> tokens)
     return hasDecimal ? Token{ TOKENS::FLOAT, result } : Token{ TOKENS::INT, result };
 }
 
-Token lexer::processId() {
+Token Lexer::processId() {
     string result;
 
     while (position < input.size() && (isalnum(input[position]) || input[position] == '_')) {
@@ -336,7 +392,7 @@ Token lexer::processId() {
 
     return Token{TOKENS::ID, result};
 }
-Token lexer::processChar()
+Token Lexer::processChar()
 {
     position++;
 
@@ -351,7 +407,7 @@ Token lexer::processChar()
     return Token{ TOKENS::INVALID, "" };
 }
 
-Token lexer::processString()
+Token Lexer::processString()
 {
     position++;
     string stringValue;

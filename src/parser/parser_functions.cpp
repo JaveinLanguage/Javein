@@ -13,7 +13,8 @@ size_t FunctionsParser::parseFunction()
     if (!(checkCurrentTokenType(TOKENS::INT_TYPE) ||
           checkCurrentTokenType(TOKENS::FLOAT_TYPE) ||
           checkCurrentTokenType(TOKENS::STRING_TYPE) ||
-          checkCurrentTokenType(TOKENS::CHAR_TYPE))) {
+          checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
+          checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
         cerr << "Error: Expected return type after 'fn'" << endl;
         return 0;
     }
@@ -44,7 +45,8 @@ size_t FunctionsParser::parseFunction()
         if (!(checkCurrentTokenType(TOKENS::INT_TYPE) ||
               checkCurrentTokenType(TOKENS::FLOAT_TYPE) ||
               checkCurrentTokenType(TOKENS::STRING_TYPE) ||
-              checkCurrentTokenType(TOKENS::CHAR_TYPE))) {
+              checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
+              checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
             cerr << "Error: Expected parameter type" << endl;
             return 0;
         }
@@ -70,7 +72,8 @@ size_t FunctionsParser::parseFunction()
             if (checkCurrentTokenType(TOKENS::INT) ||
                 checkCurrentTokenType(TOKENS::FLOAT) ||
                 checkCurrentTokenType(TOKENS::STRING) ||
-                checkCurrentTokenType(TOKENS::CHAR)) {
+                checkCurrentTokenType(TOKENS::CHAR) ||
+                checkCurrentTokenType(TOKENS::BOOLEAN)) {
                 string defaultValue = tokens[currentTokenIndex].value;
                 cout << "    Default Value: " << defaultValue << endl;
                 advance();
