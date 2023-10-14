@@ -13,12 +13,14 @@ add_executable(Javein
         src/parser/parser_loops.cpp
         src/parser/parser_functions.cpp
         src/parser/parser_classes.cpp
+        src/parser/parser_variables.cpp
 
         include/lexer.hpp
         include/parser.hpp
         include/parser/parser_conditions.hpp
         include/parser/parser_loops.hpp
         include/parser/parser_functions.hpp
-        include/parser/parser_classes.hpp)
+        include/parser/parser_classes.hpp
+        include/parser/parser_variables.hpp)
 
 target_include_directories(Javein PRIVATE include)

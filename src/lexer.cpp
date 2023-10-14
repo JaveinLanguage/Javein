@@ -169,7 +169,7 @@ vector<Token> Lexer::tokenize()
         }
             // BOOLEAN
         else if (current_char == 't'
-                 && position + 3 < input.size()
+                 && position + 4 < input.size()
                  && input[position + 1] == 'r'
                  && input[position + 2] == 'u'
                  && input[position + 3] == 'e'
@@ -179,7 +179,7 @@ vector<Token> Lexer::tokenize()
             position += 4;
         }
         else if (current_char == 'f'
-                 && position + 4 < input.size()
+                 && position + 5 < input.size()
                  && input[position + 1] == 'a'
                  && input[position + 2] == 'l'
                  && input[position + 3] == 's'

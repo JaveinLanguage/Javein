@@ -2,7 +2,12 @@
 
 int main()
 {
-    string input = "if (a > 4 && r == 48) {"
+    string input = "int i = 10"
+                   "string str = \"AHAH\""
+                   "float flt = 10.2"
+                   "char c = 'c'"
+                   "boolean bool = true"
+                   "if (a > 4 && r == 48) {"
                    "    boolean result = true"
                    "} elseif (t == 4) {"
                    "    t += 4;"

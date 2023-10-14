@@ -5,7 +5,15 @@ Parser::Parser(const vector<Token> &tokens, size_t &currentTokenIndex) : tokens(
 void Parser::parse()
 {
     while (currentTokenIndex < tokens.size()) {
-        if (checkCurrentTokenType(TOKENS::IF)) {
+        if (checkCurrentTokenType(TOKENS::INT_TYPE) ||
+              checkCurrentTokenType(TOKENS::FLOAT_TYPE) ||
+              checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
+              checkCurrentTokenType(TOKENS::STRING_TYPE) ||
+              checkCurrentTokenType(TOKENS::BOOLEAN_TYPE)) {
+            VariablesParser variablesParser(tokens, currentTokenIndex);
+            currentTokenIndex = variablesParser.parseVariableStatement();
+        }
+        else if (checkCurrentTokenType(TOKENS::IF)) {
             ConditionsParser conditionsParser(tokens, currentTokenIndex);
             currentTokenIndex = conditionsParser.parseIfStatement();
         }

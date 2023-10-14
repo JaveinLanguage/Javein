@@ -17,6 +17,7 @@ public:
     size_t currentTokenIndex;
 };
 
+#include "parser/parser_variables.hpp"
 #include "parser/parser_conditions.hpp"
 #include "parser/parser_loops.hpp"
 #include "parser/parser_functions.hpp"
