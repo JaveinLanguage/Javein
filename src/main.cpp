@@ -1,11 +1,21 @@
-#include "../include/parser.h"
+#include "../include/parser.hpp"
 
 int main() {
-    string input = "if (x == 5 && y != 3) { x = 10 } elseif (y != 9 || a == 4) { y = 15 } elseif (z > 0) { z = 20 } else { z = 5 }";
+    string input = "if (a > 4 && r == 48) {"
+                   "    int result = a + b"
+                   "} elseif (t == 4) {"
+                   "    t += 4;"
+                   "} else {"
+                   "    r == 48"
+                   "}"
+                   "for (int i = 0; i > 0; i++) {"
+                   "    i = 10"
+                   "}";
+
     lexer lexer(input);
     vector<Token> tokens = lexer.tokenize();
 
-    parser parser(tokens);
+    parser parser(tokens, 0);
     parser.parse();
 
     return 0;

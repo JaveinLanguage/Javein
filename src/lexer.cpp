@@ -1,4 +1,4 @@
-#include "../include/lexer.h"
+#include "../include/lexer.hpp"
 
 lexer::lexer(const string &s) : input(s), position(0) {};
 
@@ -109,13 +109,13 @@ vector<Token> lexer::tokenize()
         }
             // INT TYPE
         else if (current_char == 'i'
-                 && position + 4 < input.size()
+                 && position + 3 < input.size()
                  && input[position + 1] == 'n'
                  && input[position + 2] == 't'
-                 && !isalnum(input[position + 4])
+                 && !isalnum(input[position + 3])
                 ) {
             tokens.push_back(Token{ TOKENS::INT_TYPE, "int_type" });
-            position += 4;
+            position += 3;
         }
             // FLOAT TYPE
         else if (current_char == 'f'
@@ -269,6 +269,11 @@ vector<Token> lexer::tokenize()
         else if (current_char == ' ' || current_char == '\t') {
             position++;
         }
+            // COMMA
+        else if (current_char == ',') {
+            tokens.push_back(Token{TOKENS::COMMA, ","});
+            position++;
+        }
             // SEMICOLON
         else if (current_char == ';') {
             tokens.push_back(Token{TOKENS::SEMICOLON, ";"});
@@ -309,8 +314,7 @@ Token lexer::processNumber(vector<Token> tokens)
     return hasDecimal ? Token{ TOKENS::FLOAT, result } : Token{ TOKENS::INT, result };
 }
 
-Token lexer::processId()
-{
+Token lexer::processId() {
     string result;
 
     while (position < input.size() && (isalnum(input[position]) || input[position] == '_')) {
@@ -318,9 +322,20 @@ Token lexer::processId()
         position++;
     }
 
-    return Token { TOKENS::ID, result };
-}
+    if (position < input.size() && input[position] == '=') {
+        result += input[position];
+        position++;
 
+        while (position < input.size() && (isalnum(input[position]) || input[position] == '_')) {
+            result += input[position];
+            position++;
+        }
+
+        return Token{TOKENS::ID, result};
+    }
+
+    return Token{TOKENS::ID, result};
+}
 Token lexer::processChar()
 {
     position++;

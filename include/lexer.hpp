@@ -57,6 +57,7 @@ enum class TOKENS
     LINE_COMMENT,
     BLOCK_COMMENT,
     // UTILS
+    COMMA,
     SEMICOLON,
     END,
     INVALID
@@ -109,6 +110,7 @@ struct Token
             case TOKENS::NOT: return "NOT";
             case TOKENS::LINE_COMMENT: return "LINE_COMMENT";
             case TOKENS::BLOCK_COMMENT: return "BLOCK_COMMENT";
+            case TOKENS::COMMA: return "COMMA";
             case TOKENS::SEMICOLON: return "SEMICOLON";
             case TOKENS::INVALID: return "INVALID";
         }

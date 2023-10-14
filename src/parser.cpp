@@ -1,18 +1,25 @@
-#include "../include/parser.h"
+#include "../include/parser.hpp"
 
-parser::parser(const vector<Token> &tokens) : tokens(tokens), currentTokenIndex(0) {}
+parser::parser(const vector<Token> &tokens, const size_t currentTokenIndex) : tokens(tokens), currentTokenIndex(currentTokenIndex) {}
 
 void parser::parse()
 {
     while (currentTokenIndex < tokens.size()) {
         if (checkCurrentTokenType(TOKENS::IF)) {
-            parseIfStatement();
+            ConditionsParser conditionsParser(tokens, currentTokenIndex);
+            currentTokenIndex = conditionsParser.parseIfStatement();
         }
         else if (checkCurrentTokenType(TOKENS::FOR)) {
-            parseForStatement();
+            LoopsParser loopsParser(tokens, currentTokenIndex);
+            currentTokenIndex = loopsParser.parseForStatement();
         }
         else if (checkCurrentTokenType(TOKENS::WHILE)) {
-            parseWhileStatement();
+            LoopsParser loopsParser(tokens, currentTokenIndex);
+            currentTokenIndex = loopsParser.parseWhileStatement();
+        }
+        else if (checkCurrentTokenType(TOKENS::FUNC)) {
+            FunctionsParser functionsParser(tokens, currentTokenIndex);
+            currentTokenIndex = functionsParser.parseFunction();
         }
         else {
             if (currentTokenIndex >= tokens.size()) {
@@ -27,200 +34,6 @@ void parser::parse()
     }
 }
 
-void parser::parseIfStatement()
-{
-    if (!checkCurrentTokenType(TOKENS::IF)) {
-        return;
-    }
-
-    parseConditional("IF");
-
-    while (checkCurrentTokenType(TOKENS::ELSEIF)) {
-        parseConditional("ELSE IF");
-    }
-
-    if (checkCurrentTokenType(TOKENS::ELSE)) {
-        cout << "Parsing ELSE Statement:" << endl;
-        advance();
-        parseBlock("ELSE");
-    }
-}
-
-void parser::parseConditional(const string& statementType)
-{
-    cout << "Parsing " << statementType << " Statement:" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after " << statementType << " statement" << endl;
-        return;
-    }
-
-    advance();
-
-    cout << "  Parsing Condition:" << endl;
-
-    while (!checkCurrentTokenType(TOKENS::CLOSE_PAREN) && currentTokenIndex < tokens.size()) {
-        if (checkCurrentTokenType(TOKENS::ASSIGN)) {
-            advance();
-            continue;
-        }
-        cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-             << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-        advance();
-    }
-
-    if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-        cerr << "Error: Expected ')' after " << statementType << " statement" << endl;
-        return;
-    }
-
-    advance();
-
-    parseBlock(statementType);
-}
-
-void parser::parseForStatement()
-{
-    if (!checkCurrentTokenType(TOKENS::FOR)) {
-        return;
-    }
-
-    cout << "Parsing FOR Loop:" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after FOR statement" << endl;
-        return;
-    }
-
-    advance();
-
-    cout << "  Parsing Declaration:" << endl;
-
-    if (!checkCurrentTokenType(TOKENS::INT_TYPE)) {
-        cerr << "Error: Expected int type in the loop initialization" << endl;
-        return;
-    }
-
-    cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-         << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::ID)) {
-        cerr << "Error: Expected identifier for loop variable" << endl;
-        return;
-    }
-
-    cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-         << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::ASSIGN)) {
-        cerr << "Error: Expected '=' in the loop initialization" << endl;
-        return;
-    }
-
-    cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-         << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::INT)) {
-        cerr << "Error: Expected integer literal for loop initial value" << endl;
-        return;
-    }
-
-    cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-         << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::SEMICOLON)) {
-        cerr << "Error: Expected ';' after loop condition" << endl;
-        return;
-    }
-
-    advance();
-
-    cout << "  Parsing Condition:" << endl;
-
-    while (!checkCurrentTokenType(TOKENS::SEMICOLON) && currentTokenIndex < tokens.size()) {
-        if (checkCurrentTokenType(TOKENS::ASSIGN)) {
-            advance();
-            continue;
-        }
-        cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-             << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-        advance();
-    }
-
-    if (!checkCurrentTokenType(TOKENS::SEMICOLON)) {
-        cerr << "Error: Expected ';' after loop condition" << endl;
-        return;
-    }
-    advance();
-
-    cout << "  Parsing Increment:" << endl;
-
-    while (!checkCurrentTokenType(TOKENS::CLOSE_PAREN) && currentTokenIndex < tokens.size()) {
-        if (checkCurrentTokenType(TOKENS::ASSIGN)) {
-            advance();
-            continue;
-        }
-        cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-             << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-        advance();
-    }
-
-    if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-        cerr << "Error: Expected ')' after FOR statement" << endl;
-        return;
-    }
-
-    advance();
-
-    parseBlock("FOR");
-}
-
-void parser::parseWhileStatement()
-{
-    if (!checkCurrentTokenType(TOKENS::WHILE)) {
-        return;
-    }
-
-    cout << "Parsing WHILE Loop:" << endl;
-
-    advance();
-
-    if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after WHILE statement" << endl;
-        return;
-    }
-
-    advance();
-
-    cout << "  Parsing Condition:" << endl;
-
-    while (!checkCurrentTokenType(TOKENS::CLOSE_PAREN) && currentTokenIndex < tokens.size()) {
-        if (checkCurrentTokenType(TOKENS::ASSIGN)) {
-            advance();
-            continue;
-        }
-        cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
-             << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
-        advance();
-    }
-
-    advance();
-
-    parseBlock("WHILE");
-}
-
 // UTILS
 
 void parser::parseBlock(const string& blockType)
@@ -233,6 +46,11 @@ void parser::parseBlock(const string& blockType)
         cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
              << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
         advance();
+
+        if (currentTokenIndex >= tokens.size()) {
+            cerr << "Error: Unexpected end of tokens inside " << blockType << " statement" << endl;
+            return;
+        }
     }
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_BRACK)) {
@@ -250,7 +68,15 @@ bool parser::checkCurrentTokenType(TOKENS expectedType)
 
 void parser::advance()
 {
-    if (currentTokenIndex < tokens.size()) {
+    if (currentTokenIndex < tokens.size() - 1) {
+        if (tokens[currentTokenIndex + 1].type == TOKENS::END) {
+            cout << "Parsing complete. Reached END token." << endl;
+            exit(1);
+        }
+
         currentTokenIndex++;
+    } else {
+        cerr << "Error: Attempted to advance beyond the end of tokens." << endl;
+        exit(1);
     }
 }
