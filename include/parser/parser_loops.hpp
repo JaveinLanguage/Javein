@@ -3,10 +3,10 @@
 
 #include "../parser.hpp"
 
-class LoopsParser : public parser
+class LoopsParser : public Parser
 {
 public:
-    explicit LoopsParser(const vector<Token>& tokens, size_t currentTokenIndex);
+    explicit LoopsParser(const vector<Token> &tokens, size_t &currentTokenIndex);
     size_t parseForStatement();
     size_t parseWhileStatement();
 };

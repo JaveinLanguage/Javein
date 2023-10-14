@@ -3,10 +3,10 @@
 
 #include "../parser.hpp"
 
-class FunctionsParser : public parser
+class FunctionsParser : public Parser
 {
 public:
-    explicit FunctionsParser(const vector<Token>& tokens, size_t currentTokenIndex);
+    explicit FunctionsParser(const vector<Token> &tokens, size_t &currentTokenIndex);
     size_t parseFunction();
 };
 

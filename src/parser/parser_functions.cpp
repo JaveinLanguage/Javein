@@ -1,6 +1,6 @@
 #include "../../include/parser/parser_functions.hpp"
 
-FunctionsParser::FunctionsParser(const vector<Token>& tokens, const size_t currentTokenIndex) : parser(tokens, currentTokenIndex) {}
+FunctionsParser::FunctionsParser(const vector<Token> &tokens, size_t &currentTokenIndex) : Parser(tokens, currentTokenIndex) {}
 
 size_t FunctionsParser::parseFunction()
 {

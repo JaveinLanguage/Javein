@@ -1,6 +1,6 @@
 #include "../../include/parser/parser_conditions.hpp"
 
-ConditionsParser::ConditionsParser(const vector<Token>& tokens, const size_t currentTokenIndex) : parser(tokens, currentTokenIndex) {}
+ConditionsParser::ConditionsParser(const vector<Token> &tokens, size_t &currentTokenIndex) : Parser(tokens, currentTokenIndex) {}
 
 size_t ConditionsParser::parseIfStatement()
 {

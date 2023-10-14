@@ -1,8 +1,8 @@
 #include "../include/parser.hpp"
 
-parser::parser(const vector<Token> &tokens, const size_t currentTokenIndex) : tokens(tokens), currentTokenIndex(currentTokenIndex) {}
+Parser::Parser(const vector<Token> &tokens, size_t &currentTokenIndex) : tokens(tokens), currentTokenIndex(currentTokenIndex) {}
 
-void parser::parse()
+void Parser::parse()
 {
     while (currentTokenIndex < tokens.size()) {
         if (checkCurrentTokenType(TOKENS::IF)) {
@@ -21,6 +21,10 @@ void parser::parse()
             FunctionsParser functionsParser(tokens, currentTokenIndex);
             currentTokenIndex = functionsParser.parseFunction();
         }
+        else if (checkCurrentTokenType(TOKENS::CLASS)) {
+            ClassesParser classesParser(tokens, currentTokenIndex);
+            currentTokenIndex = classesParser.parseClassStatement();
+        }
         else {
             if (currentTokenIndex >= tokens.size()) {
                 break;
@@ -36,7 +40,7 @@ void parser::parse()
 
 // UTILS
 
-void parser::parseBlock(const string& blockType)
+void Parser::parseBlock(const string& blockType)
 {
     advance();
 
@@ -61,12 +65,12 @@ void parser::parseBlock(const string& blockType)
     advance();
 }
 
-bool parser::checkCurrentTokenType(TOKENS expectedType)
+bool Parser::checkCurrentTokenType(TOKENS expectedType)
 {
     return tokens[currentTokenIndex].type == expectedType;
 }
 
-void parser::advance()
+void Parser::advance()
 {
     if (currentTokenIndex < tokens.size() - 1) {
         if (tokens[currentTokenIndex + 1].type == TOKENS::END) {

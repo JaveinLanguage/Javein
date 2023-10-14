@@ -14,8 +14,9 @@ int main() {
 
     lexer lexer(input);
     vector<Token> tokens = lexer.tokenize();
+    size_t currentTokenIndex = 0;
 
-    parser parser(tokens, 0);
+    Parser parser(tokens, currentTokenIndex);
     parser.parse();
 
     return 0;

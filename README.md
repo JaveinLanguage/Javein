@@ -30,7 +30,7 @@ Suivez ces étapes pour commencer à utiliser Votre Langage :
 
 ### Parser
 
-- [ ] Développer le parser pour analyser la structure syntaxique
+- [ ] Développer le Parser pour analyser la structure syntaxique
 - [ ] Gérer les erreurs syntaxiques de manière conviviale
 - [ ] Supporter les expressions conditionnelles
 - ...
