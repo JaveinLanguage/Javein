@@ -32,7 +32,7 @@ Suivez ces étapes pour commencer à utiliser Votre Langage :
 
 - [ ] Développer le Parser pour analyser la structure syntaxique
 - [ ] Gérer les erreurs syntaxiques de manière conviviale
-- [ ] Supporter les expressions conditionnelles
+- [X] Supporter les expressions conditionnelles
 - ...
 
 ### Analyse Sémantique
