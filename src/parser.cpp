@@ -38,9 +38,6 @@ void Parser::parse()
                 break;
             }
 
-            cerr << "Error: Unexpected token at position "
-                 << currentTokenIndex << ": "
-                 << tokens[currentTokenIndex].value << endl;
             advance();
         }
     }

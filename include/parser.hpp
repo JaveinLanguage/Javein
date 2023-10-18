@@ -22,5 +22,6 @@ public:
 #include "parser/parser_loops.hpp"
 #include "parser/parser_functions.hpp"
 #include "parser/parser_classes.hpp"
+#include "parser/parser_constructors.hpp"
 
 #endif

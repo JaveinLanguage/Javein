@@ -21,6 +21,6 @@ add_executable(Javein
         include/parser/parser_loops.hpp
         include/parser/parser_functions.hpp
         include/parser/parser_classes.hpp
-        include/parser/parser_variables.hpp)
+        include/parser/parser_variables.hpp src/parser/parser_constructors.cpp include/parser/parser_constructors.hpp)
 
 target_include_directories(Javein PRIVATE include)
