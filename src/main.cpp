@@ -2,23 +2,9 @@
 
 int main()
 {
-    string input = "class aClass(string name, int age) {"
-                   "  string name"
-                   "  int age"
-                   ""
-                   "  aClass(string name, int age) {"
-                   "    this.name = name"
-                   "    this.age = age"
-                   "  }"
-                   ""
-                   "  fn string getName() {"
-                   "    return this.name"
-                   "  }"
-                   ""
-                   "  fn age getAge() {"
-                   "    return this.age"
-                   "  }"
-                   "}";
+    string input = "  fn int getAge() {"
+                   "    return 10"
+                   "  }";
 
     Lexer lexer(input);
     vector<Token> tokens = lexer.tokenize();

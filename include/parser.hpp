@@ -13,7 +13,7 @@ public:
     void parseBlock(const string &blockType);
     void advance();
 
-    const vector<Token>& tokens;
+    const vector<Token> &tokens;
     size_t currentTokenIndex;
 };
 
