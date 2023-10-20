@@ -1,22 +1,16 @@
 #include "../../include/parser/parser_constructors.hpp"
 
-ConstructorParser::ConstructorParser(const vector<Token> &tokens, size_t &currentTokenIndex) : Parser(tokens, currentTokenIndex) {}
+ConstructorParser::ConstructorParser(const vector<Token> &tokens, int &currentIndex) : Parser(tokens, currentIndex) {}
 
-
-
-size_t ConstructorParser::parseConstructor(const string &className)
+void ConstructorParser::parseConstructor(const string &className)
 {
     if (!hasConstructor(className)) {
-        return currentTokenIndex;
+        return;
     }
 
     cout << "    Parsing constructor : " + tokens[currentTokenIndex].value << endl;
 
     advance();
-
-
-
-    return currentTokenIndex;
 }
 
 bool ConstructorParser::hasConstructor(const string &className) {

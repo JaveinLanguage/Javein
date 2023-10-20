@@ -6,8 +6,8 @@
 class ConstructorParser : public Parser
 {
 public:
-    explicit ConstructorParser(const vector<Token> &tokens, size_t &currentTokenIndex);
-    size_t parseConstructor(const string &className);
+    explicit ConstructorParser(const vector<Token> &tokens, int &currentIndex);
+    void parseConstructor(const string &className);
 private:
     bool hasConstructor(const string &className);
 };

@@ -6,7 +6,7 @@
 class Parser
 {
 public:
-    explicit Parser(const vector<Token> &tokens, size_t &currentTokenIndex);
+    explicit Parser(const vector<Token> &tokens, int &currentIndex);
 
     void parse();
     bool checkCurrentTokenType(TOKENS expectedType);
@@ -14,7 +14,7 @@ public:
     void advance();
 
     const vector<Token> &tokens;
-    size_t currentTokenIndex;
+    int &currentTokenIndex;
 };
 
 #include "parser/parser_variables.hpp"
@@ -23,5 +23,7 @@ public:
 #include "parser/parser_functions.hpp"
 #include "parser/parser_classes.hpp"
 #include "parser/parser_constructors.hpp"
+
+#include "errors.hpp"
 
 #endif

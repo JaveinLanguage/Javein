@@ -1,15 +1,15 @@
 #include "../../include/parser/parser_variables.hpp"
 
-VariablesParser::VariablesParser(const vector<Token> &tokens, size_t &currentTokenIndex) : Parser(tokens, currentTokenIndex) {}
+VariablesParser::VariablesParser(const vector<Token> &tokens, int &currentIndex) : Parser(tokens, currentIndex) {}
 
-size_t VariablesParser::parseVariableStatement()
+void VariablesParser::parseVariableStatement()
 {
     if (!(checkCurrentTokenType(TOKENS::INT_TYPE) ||
             checkCurrentTokenType(TOKENS::FLOAT_TYPE) ||
             checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
             checkCurrentTokenType(TOKENS::STRING_TYPE) ||
             checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
-        return 0;
+        return;
     }
 
     cout << "Parsing VARIABLE " << tokens[currentTokenIndex].getTokenTypeName() << ":" << endl;
@@ -17,7 +17,7 @@ size_t VariablesParser::parseVariableStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ID)) {
-        return 0;
+        return;
     }
 
     cout << "  Variable Name: " << tokens[currentTokenIndex].value << endl;
@@ -25,7 +25,7 @@ size_t VariablesParser::parseVariableStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ASSIGN)) {
-        return 0;
+        return;
     }
 
     advance();
@@ -35,12 +35,10 @@ size_t VariablesParser::parseVariableStatement()
           checkCurrentTokenType(TOKENS::CHAR) ||
           checkCurrentTokenType(TOKENS::STRING) ||
           checkCurrentTokenType(TOKENS::BOOLEAN))) {
-        return 0;
+        return;
     }
 
     cout << "  Variable Value: " << tokens[currentTokenIndex].value << endl;
 
     advance();
-
-    return currentTokenIndex;
 }

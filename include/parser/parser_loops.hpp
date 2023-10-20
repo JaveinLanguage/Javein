@@ -6,9 +6,9 @@
 class LoopsParser : public Parser
 {
 public:
-    explicit LoopsParser(const vector<Token> &tokens, size_t &currentTokenIndex);
-    size_t parseForStatement();
-    size_t parseWhileStatement();
+    explicit LoopsParser(const vector<Token> &tokens, int &currentIndex);
+    void parseForStatement();
+    void parseWhileStatement();
 };
 
 #endif

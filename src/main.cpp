@@ -2,13 +2,17 @@
 
 int main()
 {
-    string input = "  fn int getAge() {"
-                   "    return 10"
-                   "  }";
+    string input = "fn int getAge(string x, int a = 10) "
+                   "  rn 10"
+                   "}"
+                   "if (x > 10) {"
+                   "  x = 15"
+                   "}";
 
     Lexer lexer(input);
     vector<Token> tokens = lexer.tokenize();
-    size_t currentTokenIndex = 0;
+
+    int currentTokenIndex = 0;
 
     Parser parser(tokens, currentTokenIndex);
     parser.parse();

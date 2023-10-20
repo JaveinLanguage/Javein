@@ -1,11 +1,11 @@
 #include "../../include/parser/parser_classes.hpp"
 
-ClassesParser::ClassesParser(const vector<Token> &tokens, size_t &currentTokenIndex) : Parser(tokens, currentTokenIndex) {}
+ClassesParser::ClassesParser(const vector<Token> &tokens, int &currentIndex) : Parser(tokens, currentIndex) {}
 
-size_t ClassesParser::parseClassStatement()
+void ClassesParser::parseClassStatement()
 {
     if (!checkCurrentTokenType(TOKENS::CLASS)) {
-        return 0;
+        return;
     }
 
     cout << "Parsing Class" << endl;
@@ -19,7 +19,7 @@ size_t ClassesParser::parseClassStatement()
 
     if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
         cerr << "Error: Expected '(' after class name" << endl;
-        return 0;
+        return;
     }
 
     advance();
@@ -31,7 +31,7 @@ size_t ClassesParser::parseClassStatement()
               checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
               checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
             cerr << "Error: Expected parameter type" << endl;
-            return 0;
+            return;
         }
 
         string paramType = tokens[currentTokenIndex].value;
@@ -41,7 +41,7 @@ size_t ClassesParser::parseClassStatement()
 
         if (!checkCurrentTokenType(TOKENS::ID)) {
             cerr << "Error: Expected parameter name" << endl;
-            return 0;
+            return;
         }
 
         string paramName = tokens[currentTokenIndex].value;
@@ -62,7 +62,7 @@ size_t ClassesParser::parseClassStatement()
                 advance();
             } else {
                 cerr << "Error: Expected default parameter value" << endl;
-                return 0;
+                return;
             }
         }
 
@@ -73,7 +73,7 @@ size_t ClassesParser::parseClassStatement()
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
         cerr << "Error: Expected ')' after class parameters" << endl;
-        return 0;
+        return;
     }
 
     advance();
@@ -82,7 +82,7 @@ size_t ClassesParser::parseClassStatement()
 
     if (!checkCurrentTokenType(TOKENS::OPEN_BRACK)) {
         cerr << "Error: Expected '{' after statement" << endl;
-        return 0;
+        return;
     }
 
     advance();
@@ -107,15 +107,11 @@ size_t ClassesParser::parseClassStatement()
                 advance();
             } else {
                 cerr << "Error: Expected default parameter value" << endl;
-                return 0;
+                return;
             }
         }
     }
 
     ConstructorParser constructorParser(tokens, currentTokenIndex);
     constructorParser.parseConstructor(className);
-
-    cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << endl;
-
-    return currentTokenIndex;
 }

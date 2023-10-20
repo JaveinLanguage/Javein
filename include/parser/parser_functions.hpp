@@ -6,8 +6,8 @@
 class FunctionsParser : public Parser
 {
 public:
-    explicit FunctionsParser(const vector<Token> &tokens, size_t &currentTokenIndex);
-    size_t parseFunction();
+    explicit FunctionsParser(const vector<Token> &tokens, int &currentIndex);
+    void parseFunction();
 };
 
 

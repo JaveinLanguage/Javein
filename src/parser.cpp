@@ -1,6 +1,6 @@
 #include "../include/parser.hpp"
 
-Parser::Parser(const vector<Token> &tokens, size_t &currentTokenIndex) : tokens(tokens), currentTokenIndex(currentTokenIndex) {}
+Parser::Parser(const vector<Token> &tokens, int &currentIndex) : tokens(tokens), currentTokenIndex(currentIndex) {}
 
 void Parser::parse()
 {
@@ -11,34 +11,35 @@ void Parser::parse()
               checkCurrentTokenType(TOKENS::STRING_TYPE) ||
               checkCurrentTokenType(TOKENS::BOOLEAN_TYPE)) {
             VariablesParser variablesParser(tokens, currentTokenIndex);
-            currentTokenIndex = variablesParser.parseVariableStatement();
+            variablesParser.parseVariableStatement();
         }
         else if (checkCurrentTokenType(TOKENS::IF)) {
             ConditionsParser conditionsParser(tokens, currentTokenIndex);
-            currentTokenIndex = conditionsParser.parseIfStatement();
+            conditionsParser.parseIfStatement();
         }
         else if (checkCurrentTokenType(TOKENS::FOR)) {
             LoopsParser loopsParser(tokens, currentTokenIndex);
-            currentTokenIndex = loopsParser.parseForStatement();
+            loopsParser.parseForStatement();
         }
         else if (checkCurrentTokenType(TOKENS::WHILE)) {
             LoopsParser loopsParser(tokens, currentTokenIndex);
-            currentTokenIndex = loopsParser.parseWhileStatement();
+            loopsParser.parseWhileStatement();
         }
         else if (checkCurrentTokenType(TOKENS::FUNC)) {
             FunctionsParser functionsParser(tokens, currentTokenIndex);
-            currentTokenIndex = functionsParser.parseFunction();
+            functionsParser.parseFunction();
         }
         else if (checkCurrentTokenType(TOKENS::CLASS)) {
             ClassesParser classesParser(tokens, currentTokenIndex);
-            currentTokenIndex = classesParser.parseClassStatement();
+            classesParser.parseClassStatement();
         }
         else {
             if (currentTokenIndex >= tokens.size()) {
-                break;
+                Error::throwError(ErrorCode::UNEXPECTED_END);
             }
-
-            advance();
+            else {
+                Error::throwError(ErrorCode::INVALID_TOKEN);
+            }
         }
     }
 }
@@ -51,20 +52,25 @@ void Parser::parseBlock(const string &blockType)
 
     cout << "  Parsing Block:" << endl;
 
+    if (!checkCurrentTokenType(TOKENS::OPEN_BRACK)) {
+        Error::throwError(ErrorCode::EXPECTED_OPEN_BRACK);
+    }
+
+    advance();
+
     while (!checkCurrentTokenType(TOKENS::CLOSE_BRACK) && currentTokenIndex < tokens.size()) {
         cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
              << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
         advance();
 
         if (currentTokenIndex >= tokens.size()) {
-            cerr << "Error: Unexpected end of tokens inside " << blockType << " statement" << endl;
+            Error::throwError(ErrorCode::UNEXPECTED_END_IN_BLOCK, blockType);
             return;
         }
     }
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_BRACK)) {
-        cerr << "Error: Expected '}' after " << blockType << " statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_CLOSE_BRACK);
     }
 
     advance();
@@ -80,12 +86,12 @@ void Parser::advance()
     if (currentTokenIndex < tokens.size() - 1) {
         if (tokens[currentTokenIndex + 1].type == TOKENS::END) {
             cout << "Parsing complete. Reached END token." << endl;
-            exit(1);
+            exit(0);
         }
 
         currentTokenIndex++;
     } else {
-        cerr << "Error: Attempted to advance beyond the end of tokens." << endl;
+        Error::throwError(ErrorCode::ATTEMPT_TO_ADVANCE_BEYOND_END);
         exit(1);
     }
 }

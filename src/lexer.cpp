@@ -52,6 +52,11 @@ vector<Token> Lexer::tokenize()
             position++;
         }
     }
+
+    if (position >= input.size()) {
+        tokens.push_back(Token{ TOKENS::INVALID, "Unexpected end of input" });
+    }
+
     return tokens;
 }
 
@@ -64,7 +69,7 @@ Token Lexer::processNumber(vector<Token> tokens)
         if (input[position] == '.') {
             if (hasDecimal) {
                 tokens.push_back(Token{ TOKENS::INVALID, result });
-                return Token{ TOKENS::INVALID, "" };
+                return Token{ TOKENS::INVALID, "Invalid number" };
             }
             hasDecimal = true;
         }
@@ -73,9 +78,9 @@ Token Lexer::processNumber(vector<Token> tokens)
         position++;
     }
 
-    if (result.back() == '.') {
+    if (result.empty() || result.back() == '.') {
         tokens.push_back(Token{ TOKENS::INVALID, result });
-        return Token{ TOKENS::INVALID, "" };
+        return Token{ TOKENS::INVALID, "Invalid number" };
     }
 
     return hasDecimal ? Token{ TOKENS::FLOAT, result } : Token{ TOKENS::INT, result };
@@ -114,15 +119,19 @@ Token Lexer::processChar()
 {
     position++;
 
+    if (position >= input.size()) {
+        return Token{ TOKENS::INVALID, "Unexpected end of input" };
+    }
+
     char charValue = input[position];
 
     position++;
-    if (input[position] == '\'') {
-        position++;
-        return Token{ TOKENS::CHAR, std::string(1, charValue) };
+    if (position >= input.size() || input[position] != '\'') {
+        return Token{ TOKENS::INVALID, "Invalid character literal" };
     }
 
-    return Token{ TOKENS::INVALID, "" };
+    position++;
+    return Token{ TOKENS::CHAR, string(1, charValue) };
 }
 
 Token Lexer::processString()
@@ -135,12 +144,12 @@ Token Lexer::processString()
         position++;
     }
 
-    if (position < input.size() && input[position] == '\"') {
-        position++;
-        return Token{ TOKENS::STRING, stringValue };
+    if (position >= input.size() || input[position] != '\"') {
+        return Token{ TOKENS::INVALID, "Unterminated string literal" };
     }
 
-    return Token{ TOKENS::INVALID, "" };
+    position++;
+    return Token{ TOKENS::STRING, stringValue };
 }
 
 bool Lexer::isKeyword(const string &str) {

@@ -6,8 +6,8 @@
 class VariablesParser : public Parser
 {
 public:
-    explicit VariablesParser(const vector<Token> &tokens, size_t &currentTokenIndex);
-    size_t parseVariableStatement();
+    explicit VariablesParser(const vector<Token> &tokens, int &currentIndex);
+    void parseVariableStatement();
 };
 
 #endif

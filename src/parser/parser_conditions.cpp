@@ -1,11 +1,11 @@
 #include "../../include/parser/parser_conditions.hpp"
 
-ConditionsParser::ConditionsParser(const vector<Token> &tokens, size_t &currentTokenIndex) : Parser(tokens, currentTokenIndex) {}
+ConditionsParser::ConditionsParser(const vector<Token> &tokens, int &currentIndex) : Parser(tokens, currentIndex) {}
 
-size_t ConditionsParser::parseIfStatement()
+void ConditionsParser::parseIfStatement()
 {
     if (!checkCurrentTokenType(TOKENS::IF)) {
-        return 0;
+        return;
     }
 
     parseConditional("IF");
@@ -19,8 +19,6 @@ size_t ConditionsParser::parseIfStatement()
         advance();
         parseBlock("ELSE");
     }
-
-    return currentTokenIndex;
 }
 
 void ConditionsParser::parseConditional(const string& statementType)
@@ -72,8 +70,6 @@ void ConditionsParser::parseConditional(const string& statementType)
         cerr << "Error: Expected ')' after " << statementType << " statement" << endl;
         return;
     }
-
-    advance();
 
     parseBlock(statementType);
 }
