@@ -8,6 +8,10 @@ class VariablesParser : public Parser
 public:
     explicit VariablesParser(const vector<Token> &tokens, int &currentIndex);
     void parseVariableStatement();
+    void printAST();
+
+private:
+    vector<unique_ptr<ASTNode>> astNodes;
 };
 
 #endif

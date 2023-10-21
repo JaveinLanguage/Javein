@@ -2,6 +2,9 @@
 #define JAVEIN_PARSER_HPP
 
 #include "lexer.hpp"
+#include "errors.hpp"
+#include "ast.hpp"
+#include <memory>
 
 class Parser
 {
@@ -15,6 +18,8 @@ public:
 
     const vector<Token> &tokens;
     int &currentTokenIndex;
+private:
+    vector<unique_ptr<ASTNode>> astNodes;
 };
 
 #include "parser/parser_variables.hpp"
@@ -23,7 +28,5 @@ public:
 #include "parser/parser_functions.hpp"
 #include "parser/parser_classes.hpp"
 #include "parser/parser_constructors.hpp"
-
-#include "errors.hpp"
 
 #endif

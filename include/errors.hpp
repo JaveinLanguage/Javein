@@ -33,6 +33,7 @@ enum class ErrorCode
     INVALID_PARAM_TYPE,
     INVALID_TYPE,
     INVALID_VALUE,
+    INVALID_OP,
     MISSING_SEMICOLUMN,
     ATTEMPT_TO_ADVANCE_BEYOND_END,
 };
@@ -97,6 +98,8 @@ private:
                 return "Invalid type";
             case ErrorCode::INVALID_VALUE:
                 return "Invalid value";
+            case ErrorCode::INVALID_OP:
+                return "Invalid operator";
             case ErrorCode::MISSING_SEMICOLUMN:
                 return "Missing ';' after statement";
             case ErrorCode::ATTEMPT_TO_ADVANCE_BEYOND_END:

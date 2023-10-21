@@ -24,6 +24,6 @@ add_executable(Javein
         include/parser/parser_classes.hpp
         include/parser/parser_variables.hpp
         include/parser/parser_constructors.hpp
-        include/errors.hpp)
+        include/errors.hpp include/ast.hpp)
 
 target_include_directories(Javein PRIVATE include)

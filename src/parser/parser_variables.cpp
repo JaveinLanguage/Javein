@@ -12,16 +12,14 @@ void VariablesParser::parseVariableStatement()
         Error::throwError(ErrorCode::INVALID_TYPE);
     }
 
-    cout << "Parsing VARIABLE " << tokens[currentTokenIndex].getTokenTypeName() << ":" << endl;
-
+    string variableType = tokens[currentTokenIndex].getTokenTypeName();
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ID)) {
         Error::throwError(ErrorCode::EXPECTED_ID);
     }
 
-    cout << "  Variable Name: " << tokens[currentTokenIndex].value << endl;
-
+    string variableName = tokens[currentTokenIndex].value;
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ASSIGN)) {
@@ -38,7 +36,19 @@ void VariablesParser::parseVariableStatement()
         Error::throwError(ErrorCode::INVALID_VALUE);
     }
 
-    cout << "  Variable Value: " << tokens[currentTokenIndex].value << endl;
+    string variableValue = tokens[currentTokenIndex].value;
 
+    unique_ptr<VariableDeclarationNode> variableNode = make_unique<VariableDeclarationNode>(variableType, variableName, variableValue);
+    astNodes.push_back(std::move(variableNode));
+
+    printAST();
     advance();
+}
+
+void VariablesParser::printAST() {
+    cout << "Printing AST:" << endl;
+
+    for (const auto& node : astNodes) {
+        node->print();
+    }
 }

@@ -103,6 +103,5 @@ void Parser::advance()
         currentTokenIndex++;
     } else {
         Error::throwError(ErrorCode::ATTEMPT_TO_ADVANCE_BEYOND_END);
-        exit(1);
     }
 }
