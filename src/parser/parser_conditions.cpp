@@ -16,7 +16,7 @@ void ConditionsParser::parseIfStatement()
 
     if (checkCurrentTokenType(TOKENS::ELSE)) {
         cout << "Parsing ELSE Statement:" << endl;
-        advance();
+
         parseBlock("ELSE");
     }
 }

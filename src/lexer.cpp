@@ -1,6 +1,6 @@
 #include "../include/lexer.hpp"
 
-Lexer::Lexer(const string &s) : input(s), position(0) {};
+Lexer::Lexer(string s) : input(std::move(s)), position(0) {};
 
 vector<Token> Lexer::tokenize()
 {
@@ -8,7 +8,7 @@ vector<Token> Lexer::tokenize()
     while (true) {
             // END
         if (position >= input.size()) {
-            tokens.push_back(Token{ TOKENS::END, "" });
+            tokens.push_back(Token{TOKENS::END, ""});
             break;
         }
 
@@ -16,7 +16,7 @@ vector<Token> Lexer::tokenize()
 
             // INT
         if (isdigit(current_char)) {
-            tokens.push_back(processNumber(tokens));
+            tokens.push_back(processNumber());
         }
             // IDENTIFIER
         else if (isalpha(current_char) || current_char == '_') {
@@ -39,7 +39,7 @@ vector<Token> Lexer::tokenize()
                 position++;
             }
 
-            tokens.push_back(Token{ OPERATORS.at(op), op });
+            tokens.push_back(Token{OPERATORS.at(op), op});
             position++;
         }
             // Ignore whitespace
@@ -48,19 +48,15 @@ vector<Token> Lexer::tokenize()
         }
             // Invalid character
         else {
-            tokens.push_back(Token{ TOKENS::INVALID, string(1, current_char) });
+            tokens.push_back(Token{TOKENS::INVALID, string(1, current_char)});
             position++;
         }
-    }
-
-    if (position >= input.size()) {
-        tokens.push_back(Token{ TOKENS::INVALID, "Unexpected end of input" });
     }
 
     return tokens;
 }
 
-Token Lexer::processNumber(vector<Token> tokens)
+Token Lexer::processNumber()
 {
     string result;
     bool hasDecimal = false;
@@ -68,8 +64,7 @@ Token Lexer::processNumber(vector<Token> tokens)
     while (position < input.size() && (isdigit(input[position]) || input[position] == '.')) {
         if (input[position] == '.') {
             if (hasDecimal) {
-                tokens.push_back(Token{ TOKENS::INVALID, result });
-                return Token{ TOKENS::INVALID, "Invalid number" };
+                Error::throwError(ErrorCode::INVALID_NUMBER);
             }
             hasDecimal = true;
         }
@@ -79,11 +74,10 @@ Token Lexer::processNumber(vector<Token> tokens)
     }
 
     if (result.empty() || result.back() == '.') {
-        tokens.push_back(Token{ TOKENS::INVALID, result });
-        return Token{ TOKENS::INVALID, "Invalid number" };
+        Error::throwError(ErrorCode::INVALID_NUMBER);
     }
 
-    return hasDecimal ? Token{ TOKENS::FLOAT, result } : Token{ TOKENS::INT, result };
+    return hasDecimal ? Token{TOKENS::FLOAT, result} : Token{TOKENS::INT, result};
 }
 
 Token Lexer::processId() {
@@ -97,7 +91,7 @@ Token Lexer::processId() {
     if (isKeyword(result)) {
         auto keywordIt = KEYWORDS.find(result);
         if (keywordIt != KEYWORDS.end()) {
-            return Token{ keywordIt->second, result };
+            return Token{keywordIt->second, result};
         }
     }
 
@@ -120,18 +114,18 @@ Token Lexer::processChar()
     position++;
 
     if (position >= input.size()) {
-        return Token{ TOKENS::INVALID, "Unexpected end of input" };
+        Error::throwError(ErrorCode::UNEXPECTED_END_INPUT);
     }
 
     char charValue = input[position];
 
     position++;
     if (position >= input.size() || input[position] != '\'') {
-        return Token{ TOKENS::INVALID, "Invalid character literal" };
+        Error::throwError(ErrorCode::UNTERMINATED_CHAR);
     }
 
     position++;
-    return Token{ TOKENS::CHAR, string(1, charValue) };
+    return Token{TOKENS::CHAR, string(1, charValue)};
 }
 
 Token Lexer::processString()
@@ -145,11 +139,11 @@ Token Lexer::processString()
     }
 
     if (position >= input.size() || input[position] != '\"') {
-        return Token{ TOKENS::INVALID, "Unterminated string literal" };
+        Error::throwError(ErrorCode::UNTERMINATED_STRING);
     }
 
     position++;
-    return Token{ TOKENS::STRING, stringValue };
+    return Token{TOKENS::STRING, stringValue};
 }
 
 bool Lexer::isKeyword(const string &str) {

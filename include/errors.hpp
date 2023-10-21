@@ -7,6 +7,15 @@ using namespace std;
 
 enum class ErrorCode
 {
+    // LEXER
+
+    INVALID_NUMBER,
+    UNEXPECTED_END_INPUT,
+    UNTERMINATED_CHAR,
+    UNTERMINATED_STRING,
+
+    // PARSER
+
     UNEXPECTED_END,
     UNEXPECTED_END_IN_BLOCK,
     UNEPECTED_END_LOGICAL_OP,
@@ -45,6 +54,14 @@ private:
     static string getErrorMessage(ErrorCode errorCode, const string &blockType)
     {
         switch (errorCode) {
+            case ErrorCode::INVALID_NUMBER:
+                return "Invalid number";
+            case ErrorCode::UNEXPECTED_END_INPUT:
+                return "Unexpected end of input";
+            case ErrorCode::UNTERMINATED_CHAR:
+                return "Unterminated char literal";
+            case ErrorCode::UNTERMINATED_STRING:
+                return "Unterminated string literal";
             case ErrorCode::UNEXPECTED_END:
                 return "Unexpected end of tokens";
             case ErrorCode::UNEXPECTED_END_IN_BLOCK:

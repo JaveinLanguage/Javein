@@ -7,6 +7,10 @@ int main()
                    "}"
                    "if (x > 10) {"
                    "  x = 15"
+                   "} elseif (a == 10) {"
+                   "  a = 10"
+                   "} else {"
+                   "  z = 14"
                    "}";
 
     Lexer lexer(input);
