@@ -31,9 +31,10 @@ Suivez ces étapes pour commencer à utiliser Javein :
 
 ### Parser
 
-- [ ] Développer le Parser pour analyser la structure syntaxique
+- [X] Développer le Parser pour analyser la structure syntaxique
 - [X] Gérer les erreurs syntaxiques de manière conviviale
 - [X] Supporter les expressions conditionnelles
+- [ ] Renvoyer l'AST pour l'analyse sémantique
 - ...
 
 ### Analyse Sémantique
