@@ -1,6 +1,7 @@
 # Javein
 
 Bienvenue dans la documentation officielle de Javein.
+Date de bêta prévue en janvier 2024.
 
 ## 🌟 Caractéristiques
 
@@ -31,7 +32,7 @@ Suivez ces étapes pour commencer à utiliser Javein :
 ### Parser
 
 - [ ] Développer le Parser pour analyser la structure syntaxique
-- [ ] Gérer les erreurs syntaxiques de manière conviviale
+- [X] Gérer les erreurs syntaxiques de manière conviviale
 - [X] Supporter les expressions conditionnelles
 - ...
 
