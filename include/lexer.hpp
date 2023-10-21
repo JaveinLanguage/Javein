@@ -163,6 +163,7 @@ private:
     };
 
     bool isKeyword(const string &str);
+    static bool isLineBreak(char c);
 };
 
 #include "errors.hpp"

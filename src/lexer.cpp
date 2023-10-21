@@ -14,8 +14,23 @@ vector<Token> Lexer::tokenize()
 
         const char current_char = input[position];
 
+           // Comment
+        if (current_char == '$' && position + 1 < input.size() && input[position + 1] == '$') {
+            while (position < input.size() && !isLineBreak(input[position])) {
+                position++;
+            }
+        }
+        else if (current_char == '/' && position + 1 < input.size() && input[position + 1] == '$') {
+            position += 2;
+
+            while (position + 1 < input.size() && !(input[position] == '$' && input[position + 1] == '/')) {
+                position++;
+            }
+
+            position += 2;
+        }
             // INT
-        if (isdigit(current_char)) {
+        else if (isdigit(current_char)) {
             tokens.push_back(processNumber());
         }
             // IDENTIFIER
@@ -148,4 +163,8 @@ Token Lexer::processString()
 
 bool Lexer::isKeyword(const string &str) {
     return KEYWORDS.count(str) > 0;
+}
+
+bool Lexer::isLineBreak(char c) {
+    return c == '\n' || c == '\r';
 }
