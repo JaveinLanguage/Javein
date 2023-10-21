@@ -9,7 +9,7 @@ void VariablesParser::parseVariableStatement()
             checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
             checkCurrentTokenType(TOKENS::STRING_TYPE) ||
             checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
-        return;
+        Error::throwError(ErrorCode::INVALID_TYPE);
     }
 
     cout << "Parsing VARIABLE " << tokens[currentTokenIndex].getTokenTypeName() << ":" << endl;
@@ -17,7 +17,7 @@ void VariablesParser::parseVariableStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ID)) {
-        return;
+        Error::throwError(ErrorCode::EXPECTED_ID);
     }
 
     cout << "  Variable Name: " << tokens[currentTokenIndex].value << endl;
@@ -25,7 +25,7 @@ void VariablesParser::parseVariableStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ASSIGN)) {
-        return;
+        Error::throwError(ErrorCode::EXPECTED_ASSIGN);
     }
 
     advance();
@@ -35,7 +35,7 @@ void VariablesParser::parseVariableStatement()
           checkCurrentTokenType(TOKENS::CHAR) ||
           checkCurrentTokenType(TOKENS::STRING) ||
           checkCurrentTokenType(TOKENS::BOOLEAN))) {
-        return;
+        Error::throwError(ErrorCode::INVALID_VALUE);
     }
 
     cout << "  Variable Value: " << tokens[currentTokenIndex].value << endl;

@@ -5,7 +5,7 @@ ConditionsParser::ConditionsParser(const vector<Token> &tokens, int &currentInde
 void ConditionsParser::parseIfStatement()
 {
     if (!checkCurrentTokenType(TOKENS::IF)) {
-        return;
+        Error::throwError(ErrorCode::EXPECTED_KEY, "if");
     }
 
     parseConditional("IF");
@@ -28,8 +28,7 @@ void ConditionsParser::parseConditional(const string& statementType)
     advance();
 
     if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after " << statementType << " statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_OPEN_PARENT);
     }
 
     advance();
@@ -37,6 +36,10 @@ void ConditionsParser::parseConditional(const string& statementType)
     cout << "  Parsing Condition:" << endl;
 
     while (!checkCurrentTokenType(TOKENS::CLOSE_PAREN) && currentTokenIndex < tokens.size()) {
+        if (checkCurrentTokenType(TOKENS::OPEN_BRACK)) {
+            Error::throwError(ErrorCode::EXPECTED_CLOSE_PARENT);
+        }
+
         if (checkCurrentTokenType(TOKENS::ASSIGN)) {
             advance();
             continue;
@@ -47,28 +50,24 @@ void ConditionsParser::parseConditional(const string& statementType)
         advance();
 
         if (currentTokenIndex >= tokens.size()) {
-            cerr << "Error: Unexpected end of tokens after condition in " << statementType << " statement" << endl;
-            return;
+            Error::throwError(ErrorCode::UNEXPECTED_END_IN_BLOCK);
         }
 
         if (checkCurrentTokenType(TOKENS::AND) || checkCurrentTokenType(TOKENS::OR)) {
             advance();
 
             if (currentTokenIndex >= tokens.size()) {
-                cerr << "Error: Unexpected end of tokens after logical operator in " << statementType << " statement" << endl;
-                return;
+                Error::throwError(ErrorCode::UNEPECTED_END_LOGICAL_OP);
             }
 
             if (checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-                cerr << "Error: Expected condition after logical operator in " << statementType << " statement" << endl;
-                return;
+                Error::throwError(ErrorCode::UNEPECTED_END_LOGICAL_OP);
             }
         }
     }
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-        cerr << "Error: Expected ')' after " << statementType << " statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_CLOSE_PARENT);
     }
 
     parseBlock(statementType);

@@ -5,7 +5,7 @@ FunctionsParser::FunctionsParser(const vector<Token> &tokens, int &currentIndex)
 void FunctionsParser::parseFunction()
 {
     if (!checkCurrentTokenType(TOKENS::FUNC)) {
-        return;
+        Error::throwError(ErrorCode::EXPECTED_KEY, "fn");
     }
 
     advance();
@@ -15,8 +15,7 @@ void FunctionsParser::parseFunction()
           checkCurrentTokenType(TOKENS::STRING_TYPE) ||
           checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
           checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
-        cerr << "Error: Expected return type after 'fn'" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_RETURN_TYPE);
     }
 
     string returnType = tokens[currentTokenIndex].value;
@@ -25,8 +24,7 @@ void FunctionsParser::parseFunction()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ID)) {
-        cerr << "Error: Expected function name after return type" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_ID);
     }
 
     string functionName = tokens[currentTokenIndex].value;
@@ -35,8 +33,7 @@ void FunctionsParser::parseFunction()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after function name" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_OPEN_PARENT);
     }
 
     advance();
@@ -47,7 +44,7 @@ void FunctionsParser::parseFunction()
               checkCurrentTokenType(TOKENS::STRING_TYPE) ||
               checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
               checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
-            cerr << "Error: Expected parameter type" << endl;
+            Error::throwError(ErrorCode::INVALID_PARAM_TYPE);
             return;
         }
 
@@ -57,8 +54,7 @@ void FunctionsParser::parseFunction()
         advance();
 
         if (!checkCurrentTokenType(TOKENS::ID)) {
-            cerr << "Error: Expected parameter name" << endl;
-            return;
+            Error::throwError(ErrorCode::EXPECTED_ID);
         }
 
         string paramName = tokens[currentTokenIndex].value;
@@ -78,8 +74,7 @@ void FunctionsParser::parseFunction()
                 cout << "      Default Value: " << defaultValue << endl;
                 advance();
             } else {
-                cerr << "Error: Expected default parameter value" << endl;
-                return;
+                Error::throwError(ErrorCode::INVALID_VALUE);
             }
         }
 
@@ -89,8 +84,7 @@ void FunctionsParser::parseFunction()
     }
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-        cerr << "Error: Expected ')' after function parameters" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_CLOSE_PARENT);
     }
 
     parseBlock("FUNCTION");

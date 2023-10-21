@@ -8,10 +8,22 @@ using namespace std;
 enum class ErrorCode
 {
     UNEXPECTED_END,
-    EXPECTED_OPEN_BRACK,
     UNEXPECTED_END_IN_BLOCK,
+    UNEPECTED_END_LOGICAL_OP,
+    EXPECTED_OPEN_BRACK,
     EXPECTED_CLOSE_BRACK,
+    EXPECTED_OPEN_PARENT,
+    EXPECTED_CLOSE_PARENT,
+    EXPECTED_ID,
+    EXPECTED_ASSIGN,
+    EXPECTED_KEY,
+    EXPECTED_RETURN_TYPE,
+    EXPECTED_RETURN_VALUE,
     INVALID_TOKEN,
+    INVALID_PARAM_TYPE,
+    INVALID_TYPE,
+    INVALID_VALUE,
+    MISSING_SEMICOLUMN,
     ATTEMPT_TO_ADVANCE_BEYOND_END,
 };
 
@@ -20,32 +32,53 @@ class Error
 public:
     static void throwError(ErrorCode code, const string &blockType = "")
     {
-        printError(code);
+        printError(code, blockType);
         exit(static_cast<int>(code));
     }
 
 private:
-    ErrorCode errorCode;
-
     static void printError(ErrorCode errorCode, const string &blockType)
     {
         cerr << "Error (" << static_cast<int>(errorCode) << "): " << getErrorMessage(errorCode, blockType) << std::endl;
     }
 
-    static string getErrorMessage(ErrorCode code, const string &blockType)
+    static string getErrorMessage(ErrorCode errorCode, const string &blockType)
     {
-        switch (code)
-        {
+        switch (errorCode) {
             case ErrorCode::UNEXPECTED_END:
                 return "Unexpected end of tokens";
-            case ErrorCode::EXPECTED_OPEN_BRACK:
-                return "Expected '{' after statement";
             case ErrorCode::UNEXPECTED_END_IN_BLOCK:
                 return "Unexpected end of tokens inside " + blockType + " statement";
+            case ErrorCode::UNEPECTED_END_LOGICAL_OP:
+                return "Unexpected end of tokens after logical operator";
+            case ErrorCode::EXPECTED_OPEN_BRACK:
+                return "Expected '{' after statement";
             case ErrorCode::EXPECTED_CLOSE_BRACK:
                 return "Expected '}' after statement";
+            case ErrorCode::EXPECTED_OPEN_PARENT:
+                return "Expected '(' after statement";
+            case ErrorCode::EXPECTED_CLOSE_PARENT:
+                return "Expected ')' after statement";
+            case ErrorCode::EXPECTED_ID:
+                return "Expected identifier after statement";
+            case ErrorCode::EXPECTED_ASSIGN:
+                return "Expected '=' after statement";
+            case ErrorCode::EXPECTED_KEY:
+                return "Expected " + blockType + " statement";
+            case ErrorCode::EXPECTED_RETURN_TYPE:
+                return "Expected return type after statement";
+            case ErrorCode::EXPECTED_RETURN_VALUE:
+                return "Expected return value after statement";
             case ErrorCode::INVALID_TOKEN:
                 return "Invalid token encountered";
+            case ErrorCode::INVALID_PARAM_TYPE:
+                return "Expected parameter type";
+            case ErrorCode::INVALID_TYPE:
+                return "Invalid type";
+            case ErrorCode::INVALID_VALUE:
+                return "Invalid value";
+            case ErrorCode::MISSING_SEMICOLUMN:
+                return "Missing ';' after statement";
             case ErrorCode::ATTEMPT_TO_ADVANCE_BEYOND_END:
                 return "Attempted to advance beyond the end of tokens";
             default:

@@ -2,7 +2,7 @@
 
 int main()
 {
-    string input = "fn int getAge(string x, int a = 10) "
+    string input = "fn int getAge(string x, int a = 10) {"
                    "  rn 10"
                    "}"
                    "if (x > 10) {"

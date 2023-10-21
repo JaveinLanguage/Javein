@@ -5,7 +5,7 @@ LoopsParser::LoopsParser(const vector<Token> &tokens, int &currentIndex) : Parse
 void LoopsParser::parseForStatement()
 {
     if (!checkCurrentTokenType(TOKENS::FOR)) {
-        return;
+        Error::throwError(ErrorCode::EXPECTED_KEY, "for");
     }
 
     cout << "Parsing FOR Loop:" << endl;
@@ -13,8 +13,7 @@ void LoopsParser::parseForStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after FOR statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_OPEN_PARENT);
     }
 
     advance();
@@ -22,8 +21,7 @@ void LoopsParser::parseForStatement()
     cout << "  Parsing Declaration:" << endl;
 
     if (!checkCurrentTokenType(TOKENS::INT_TYPE)) {
-        cerr << "Error: Expected int type in the loop initialization" << endl;
-        return;
+        Error::throwError(ErrorCode::INVALID_TYPE);
     }
 
     cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
@@ -32,8 +30,7 @@ void LoopsParser::parseForStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ID)) {
-        cerr << "Error: Expected identifier for loop variable" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_ID);
     }
 
     cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
@@ -42,8 +39,7 @@ void LoopsParser::parseForStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::ASSIGN)) {
-        cerr << "Error: Expected '=' in the loop initialization" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_ASSIGN);
     }
 
     cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
@@ -52,8 +48,7 @@ void LoopsParser::parseForStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::INT)) {
-        cerr << "Error: Expected integer literal for loop initial value" << endl;
-        return;
+        Error::throwError(ErrorCode::INVALID_VALUE);
     }
 
     cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
@@ -62,8 +57,7 @@ void LoopsParser::parseForStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::SEMICOLON)) {
-        cerr << "Error: Expected ';' after loop condition" << endl;
-        return;
+        Error::throwError(ErrorCode::MISSING_SEMICOLUMN);
     }
 
     advance();
@@ -81,9 +75,9 @@ void LoopsParser::parseForStatement()
     }
 
     if (!checkCurrentTokenType(TOKENS::SEMICOLON)) {
-        cerr << "Error: Expected ';' after loop condition" << endl;
-        return;
+        Error::throwError(ErrorCode::INVALID_VALUE);
     }
+
     advance();
 
     cout << "  Parsing Increment:" << endl;
@@ -99,8 +93,7 @@ void LoopsParser::parseForStatement()
     }
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-        cerr << "Error: Expected ')' after FOR statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_CLOSE_PARENT);
     }
 
     parseBlock("FOR");
@@ -117,8 +110,7 @@ void LoopsParser::parseWhileStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after WHILE statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_OPEN_PARENT);
     }
 
     advance();

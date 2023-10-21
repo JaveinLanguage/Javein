@@ -18,8 +18,7 @@ void ClassesParser::parseClassStatement()
     advance();
 
     if (!checkCurrentTokenType(TOKENS::OPEN_PAREN)) {
-        cerr << "Error: Expected '(' after class name" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_OPEN_PARENT);
     }
 
     advance();
@@ -30,8 +29,7 @@ void ClassesParser::parseClassStatement()
               checkCurrentTokenType(TOKENS::STRING_TYPE) ||
               checkCurrentTokenType(TOKENS::CHAR_TYPE) ||
               checkCurrentTokenType(TOKENS::BOOLEAN_TYPE))) {
-            cerr << "Error: Expected parameter type" << endl;
-            return;
+            Error::throwError(ErrorCode::INVALID_PARAM_TYPE);
         }
 
         string paramType = tokens[currentTokenIndex].value;
@@ -72,8 +70,7 @@ void ClassesParser::parseClassStatement()
     }
 
     if (!checkCurrentTokenType(TOKENS::CLOSE_PAREN)) {
-        cerr << "Error: Expected ')' after class parameters" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_CLOSE_PARENT);
     }
 
     advance();
@@ -81,8 +78,7 @@ void ClassesParser::parseClassStatement()
     cout << "  Parsing Block:" << endl;
 
     if (!checkCurrentTokenType(TOKENS::OPEN_BRACK)) {
-        cerr << "Error: Expected '{' after statement" << endl;
-        return;
+        Error::throwError(ErrorCode::EXPECTED_OPEN_BRACK);
     }
 
     advance();
