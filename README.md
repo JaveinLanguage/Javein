@@ -11,7 +11,7 @@ Bienvenue dans la documentation officielle de Javein.
 
 ## 🚀 Comment commencer
 
-Suivez ces étapes pour commencer à utiliser Votre Langage :
+Suivez ces étapes pour commencer à utiliser Javein :
 
 ...
 
