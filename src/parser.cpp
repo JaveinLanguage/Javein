@@ -58,9 +58,16 @@ void Parser::parseBlock(const string &blockType)
 
     advance();
 
+    bool hasReturnStatement = false;
+
     while (!checkCurrentTokenType(TOKENS::CLOSE_BRACK) && currentTokenIndex < tokens.size()) {
         cout << "    Type: " << tokens[currentTokenIndex].getTokenTypeName()
              << ", Value: \"" << tokens[currentTokenIndex].value << "\"" << endl;
+
+        if (blockType == "FUNCTION" && checkCurrentTokenType(TOKENS::RETURN)) {
+            hasReturnStatement = true;
+        }
+
         advance();
 
         if (currentTokenIndex >= tokens.size()) {
@@ -74,6 +81,10 @@ void Parser::parseBlock(const string &blockType)
     }
 
     advance();
+
+    if (blockType == "FUNCTION" && !hasReturnStatement) {
+        Error::throwError(ErrorCode::EXPECTED_RETURN_VALUE);
+    }
 }
 
 bool Parser::checkCurrentTokenType(TOKENS expectedType)

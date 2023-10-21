@@ -39,7 +39,7 @@ public:
 private:
     static void printError(ErrorCode errorCode, const string &blockType)
     {
-        cerr << "Error (" << static_cast<int>(errorCode) << "): " << getErrorMessage(errorCode, blockType) << std::endl;
+        cerr << "Error (" << static_cast<int>(errorCode) << "): " << getErrorMessage(errorCode, blockType) << endl;
     }
 
     static string getErrorMessage(ErrorCode errorCode, const string &blockType)
