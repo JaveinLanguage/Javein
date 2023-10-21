@@ -28,6 +28,7 @@ enum class ErrorCode
     EXPECTED_KEY,
     EXPECTED_RETURN_TYPE,
     EXPECTED_RETURN_VALUE,
+    EXPECTED_DEFAULT_VALUE,
     INVALID_TOKEN,
     INVALID_PARAM_TYPE,
     INVALID_TYPE,
@@ -86,6 +87,8 @@ private:
                 return "Expected return type after statement";
             case ErrorCode::EXPECTED_RETURN_VALUE:
                 return "Expected return value after statement";
+            case ErrorCode::EXPECTED_DEFAULT_VALUE:
+                return "Expected default parameter value";
             case ErrorCode::INVALID_TOKEN:
                 return "Invalid token encountered";
             case ErrorCode::INVALID_PARAM_TYPE:

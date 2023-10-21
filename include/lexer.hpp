@@ -24,6 +24,7 @@ enum class TOKENS
     FUNC,
     RETURN,
     CLASS,
+    THIS,
     // KEYS TYPE
     INT_TYPE,
     FLOAT_TYPE,
@@ -60,10 +61,8 @@ enum class TOKENS
     AND,
     OR,
     NOT,
-    // COMMENT
-    LINE_COMMENT,
-    BLOCK_COMMENT,
     // UTILS
+    DOT,
     COMMA,
     SEMICOLON,
     END,
@@ -79,7 +78,7 @@ struct Token
 
     const char* tokenTypeNames[static_cast<int>(TOKENS::SENTINEL)] = {
             "INT", "FLOAT", "CHAR", "STRING", "BOOLEAN",
-            "IF", "ELSEIF", "ELSE", "FOR", "WHILE", "FUNC", "RETURN", "CLASS",
+            "IF", "ELSEIF", "ELSE", "FOR", "WHILE", "FUNC", "RETURN", "CLASS", "THIS",
             "INT_TYPE", "FLOAT_TYPE", "CHAR_TYPE", "STRING_TYPE", "BOOLEAN_TYPE",
             "ID",
             "INCR", "DECR", "PLUS_EQUAL", "MINUS_EQUAL", "MUL_EQUAL", "DIV_EQUAL",
@@ -88,8 +87,7 @@ struct Token
             "ASSIGN",
             "EQUAL", "NOT_EQUAL", "LESS_THAN", "GREATER_THAN", "LESS_THAN_OR_EQUAL", "GREATER_THAN_OR_EQUAL",
             "AND", "OR", "NOT",
-            "LINE_COMMENT", "BLOCK_COMMENT",
-            "COMMA", "SEMICOLON",
+            "DOT", "COMMA", "SEMICOLON",
             "END",
             "INVALID"
     };
@@ -130,7 +128,8 @@ private:
             {"string", TOKENS::STRING_TYPE},
             {"boolean", TOKENS::BOOLEAN_TYPE},
             {"true", TOKENS::BOOLEAN},
-            {"false", TOKENS::BOOLEAN}
+            {"false", TOKENS::BOOLEAN},
+            {"this", TOKENS::THIS}
     };
 
     const unordered_map<string, TOKENS> OPERATORS = {
@@ -159,7 +158,8 @@ private:
             {"{", TOKENS::OPEN_BRACK},
             {"}", TOKENS::CLOSE_BRACK},
             {",", TOKENS::COMMA},
-            {";", TOKENS::SEMICOLON}
+            {";", TOKENS::SEMICOLON},
+            {".", TOKENS::DOT},
     };
 
     bool isKeyword(const string &str);

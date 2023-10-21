@@ -5,7 +5,7 @@ ClassesParser::ClassesParser(const vector<Token> &tokens, int &currentIndex) : P
 void ClassesParser::parseClassStatement()
 {
     if (!checkCurrentTokenType(TOKENS::CLASS)) {
-        return;
+        Error::throwError(ErrorCode::EXPECTED_KEY, "class");
     }
 
     cout << "Parsing Class" << endl;
@@ -38,8 +38,7 @@ void ClassesParser::parseClassStatement()
         advance();
 
         if (!checkCurrentTokenType(TOKENS::ID)) {
-            cerr << "Error: Expected parameter name" << endl;
-            return;
+            Error::throwError(ErrorCode::EXPECTED_ID, "class");
         }
 
         string paramName = tokens[currentTokenIndex].value;
@@ -59,8 +58,7 @@ void ClassesParser::parseClassStatement()
                 cout << "      Default Value: " << defaultValue << endl;
                 advance();
             } else {
-                cerr << "Error: Expected default parameter value" << endl;
-                return;
+                Error::throwError(ErrorCode::EXPECTED_DEFAULT_VALUE);
             }
         }
 
@@ -83,7 +81,7 @@ void ClassesParser::parseClassStatement()
 
     advance();
 
-    while (tokens[currentTokenIndex].value != className || checkCurrentTokenType(TOKENS::FUNC) && currentTokenIndex < tokens.size()) {
+    while (tokens[currentTokenIndex].value != className && currentTokenIndex < tokens.size()) {
         advance();
 
         cout << "    Parsing variable : " + tokens[currentTokenIndex].value << endl;
@@ -99,15 +97,25 @@ void ClassesParser::parseClassStatement()
                 checkCurrentTokenType(TOKENS::CHAR) ||
                 checkCurrentTokenType(TOKENS::BOOLEAN)) {
                 string defaultValue = tokens[currentTokenIndex].value;
-                cout << "      Default Value: " << defaultValue << endl;
+
                 advance();
             } else {
-                cerr << "Error: Expected default parameter value" << endl;
-                return;
+                Error::throwError(ErrorCode::EXPECTED_DEFAULT_VALUE);
             }
         }
     }
 
     ConstructorParser constructorParser(tokens, currentTokenIndex);
     constructorParser.parseConstructor(className);
+
+    while (checkCurrentTokenType(TOKENS::FUNC) && currentTokenIndex < tokens.size()) {
+        FunctionsParser functionsParser(tokens, currentTokenIndex);
+        functionsParser.parseFunction();
+    }
+
+    advance();
+
+    if (!checkCurrentTokenType(TOKENS::CLOSE_BRACK)) {
+        Error::throwError(ErrorCode::EXPECTED_CLOSE_BRACK);
+    }
 }

@@ -2,19 +2,18 @@
 
 int main()
 {
-    string input = "$$ CECI EST UN COMMENTAIRE\n"
-                   "fn int getAge(string x, int a = 10) {"
-                   "  rn 10"
-                   "}"
-                   "/$"
-                   "COMMENTAIRE AHAH"
-                   "$/"
-                   "if (x > 10) {"
-                   "  x = 15"
-                   "} elseif (a == 10) {"
-                   "  a = 10"
-                   "} else {"
-                   "  z = 14"
+    string input = "class Player() {"
+                   "  string name"
+                   "  int age"
+                   ""
+                   "  Player(string name, int age) {"
+                   "    this.name = name"
+                   "    this.age = age"
+                   "  }"
+                   ""
+                   "  fn int getPlr() {"
+                   "    rn 1"
+                   "  }"
                    "}";
 
     Lexer lexer(input);

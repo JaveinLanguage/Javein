@@ -14,12 +14,13 @@ vector<Token> Lexer::tokenize()
 
         const char current_char = input[position];
 
-           // Comment
+           // LINE COMMENT
         if (current_char == '$' && position + 1 < input.size() && input[position + 1] == '$') {
             while (position < input.size() && !isLineBreak(input[position])) {
                 position++;
             }
         }
+            // BLOCK COMMENT
         else if (current_char == '/' && position + 1 < input.size() && input[position + 1] == '$') {
             position += 2;
 
@@ -57,11 +58,11 @@ vector<Token> Lexer::tokenize()
             tokens.push_back(Token{OPERATORS.at(op), op});
             position++;
         }
-            // Ignore whitespace
+            // IGNORE
         else if (isspace(current_char)) {
             position++;
         }
-            // Invalid character
+            // INVALID
         else {
             tokens.push_back(Token{TOKENS::INVALID, string(1, current_char)});
             position++;
