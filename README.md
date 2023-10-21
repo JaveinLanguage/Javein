@@ -1,6 +1,6 @@
 # Javein
 
-Bienvenue dans la documentation officielle de Javein.
+Bienvenue dans la documentation officielle de Javein.<br/>
 Date de bêta prévue en janvier 2024.
 
 ## 🌟 Caractéristiques
@@ -25,8 +25,8 @@ Suivez ces étapes pour commencer à utiliser Javein :
 ### Lexer
 
 - [X] Implémenter le lexer de base
-- [ ] Gérer les erreurs lexicales de manière robuste
-- [ ] Ajouter la prise en charge des commentaires
+- [X] Gérer les erreurs lexicales de manière robuste
+- [X] Ajouter la prise en charge des commentaires
 - ...
 
 ### Parser
