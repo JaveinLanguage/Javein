@@ -1,6 +1,7 @@
 # Javein
 
 Bienvenue dans la documentation officielle de Javein.
+Date de bêta prévue en janvier 2024.
 
 ## 🌟 Caractéristiques
 
